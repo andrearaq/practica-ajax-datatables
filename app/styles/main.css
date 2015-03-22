@@ -4,7 +4,7 @@ body {
   color: #333;
 }
 
-.hero-unit {
+.tabla_doctores {
   margin: 50px auto 0 auto;
   width: 300px;
   font-size: 18px;
@@ -15,11 +15,7 @@ body {
   padding: 60px;
 }
 
-.hero-unit h1 {
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-}
+
 
 .browsehappy {
   margin: 0.2em 0;
