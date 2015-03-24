@@ -19,7 +19,7 @@ module.exports = function (grunt) {
   // Configurable paths
   var config = {
     app: 'app',
-    dist: 'dist'
+    dist: '/var/www/html/practica-ajax-datatables'
   };
 
   // Define the configuration for all the tasks
@@ -289,7 +289,8 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             'images/{,*/}*.webp',
             '{,*/}*.html',
-            'styles/fonts/{,*/}*.*'
+            'styles/fonts/{,*/}*.*',
+            'php/*.*'
           ]
         }, {
           src: 'node_modules/apache-server-configs/dist/.htaccess',

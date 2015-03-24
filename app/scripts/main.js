@@ -5,7 +5,8 @@ $(document).ready(function() {
 		'processing': true,
 		'serverSide': true,
 		'ajax': 'php/cargar_doctores.php',
-	//	'bJQueryUI': true,
+		'bJQueryUI': true,
+		'sPaginationType': "full_numbers",
 		'bPaginate': true,
 		'responsive': true,
 		'bFilter': true,
@@ -36,16 +37,17 @@ $(document).ready(function() {
 				'sSortDescending': ': Activar para ordenar la columna de manera descendente'
 			}
 		},
-	 	'columns': [{
-			'data': 'nombre'
-			}, {
-			'data': 'numcolegiado'
-			}, {
-			'data': 'clinica'
-			}, {
-			'data': 'unidades'
-			}, {
-			'data': 'familia'	
-	  	}]
+	 	'columns': [
+	 		{ 'data': 'nombre' }, 
+	 		{ 'data': 'numcolegiado' },
+	 		{ 'data': 'clinica',
+				'render': function(data) {
+					return '<li>' + data + '</li><br>';
+				}
+			},
+			{ 'data': 'id_doctor',
+			 'visible': false
+	 		}
+	  	]
 	});
 });
