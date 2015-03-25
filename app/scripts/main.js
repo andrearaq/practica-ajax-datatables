@@ -6,7 +6,6 @@ $(document).ready(function() {
 		'serverSide': true,
 		'ajax': 'php/cargar_doctores.php',
 		'bJQueryUI': true,
-		'sPaginationType': "full_numbers",
 		'bPaginate': true,
 		'responsive': true,
 		'bFilter': true,
