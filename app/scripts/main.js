@@ -37,16 +37,19 @@ $(document).ready(function() {
 			}
 		},
 	 	'columns': [
-	 		{ 'data': 'nombre' }, 
+	 		{ 'data': 'nombre', 
+	 		'render': function (data) {return '<a href="#" >' + data + '</a>'}
+	 		},
 	 		{ 'data': 'numcolegiado' },
 	 		{ 'data': 'clinica',
 				'render': function(data) {
-					return '<li>' + data + '</li><br>';
+					return '<ul><li>' + data + '</li><ul>';
 				}
 			},
 			{ 'data': 'id_doctor',
-			 'visible': false
-	 		}
-	  	]
+			 'render': function(data) {
+                   return '<a class="ui-button" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a><a class="ui-button" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
+               }
+	 		} ] 
 	});
 });
