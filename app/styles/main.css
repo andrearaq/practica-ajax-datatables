@@ -15,12 +15,61 @@ body {
   border-radius: 6px;
   padding: 60px;
 }
-
-
-
+.container {
+  width: 90%;
+  margin: 0 auto;
+}
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
+}
+.btn {
+  border: solid 1px;
+  padding: 5px;
+  margin-left: 10px;
+  border-radius: 6px;
+  font-size: 15px;
+  text-decoration: none;
+  color: black;
+}
+.boton {
+  width: 65px;
+  height: 45px;
+}
+.boton2 {
+  width: 170px;
+  height: 45px;
+}
+.boton_ed {
+  background-color: #FFBF72;
+}
+.boton_bo {
+  background-color: #FF9C25;
+}
+.boton_nu {
+  background-color: #25B9FF;
+}
+.boton_re {
+  background-color: #0079B2;
+}
+#botones {
+  clear: both;
+  float: left;
+  margin-top: 5px;
+}
+#titulo {
+  float: left;
+}
+#nombre {
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+#miTabla {
+  margin-top: 10px;
+}
+.formu{
+  display: none;
 }

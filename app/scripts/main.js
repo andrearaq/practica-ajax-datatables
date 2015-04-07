@@ -1,5 +1,13 @@
 // Clinica Dental - listado de Doctores
+// Andrea Gutierrez Muñoz
 'use strict';
+
+// funciona para separar en lineas las clinicas cargadas
+function lista(datos) {
+    var salida = datos.replace(/,/g, '</li><li>');
+    return salida;
+}
+
 $(document).ready(function() {
 	$('#miTabla').DataTable({
 		'processing': true,
@@ -43,12 +51,13 @@ $(document).ready(function() {
 	 		{ 'data': 'numcolegiado' },
 	 		{ 'data': 'clinica',
 				'render': function(data) {
-					return '<ul><li>' + data + '</li><ul>';
+					var fila=lista(data);
+					return '<ul><li>' + fila + '</li><ul>';
 				}
 			},
 			{ 'data': 'id_doctor',
 			 'render': function(data) {
-                   return '<a class="ui-button" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a><a class="ui-button" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
+                   return '<a class="btn boton boton_ed" href=http://localhost/php/editar.php?id_doctor=' + data + '>Editar</a><a class="btn boton boton_bo" href=http://localhost/php/borrar.php?id_doctor=' + data + '>Borrar</a>';
                }
 	 		} ] 
 	});
