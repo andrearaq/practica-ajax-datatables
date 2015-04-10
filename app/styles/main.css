@@ -25,31 +25,51 @@ body {
   color: #000;
   padding: 0.2em 0;
 }
+.boton_especial {
+    background-color: #60b842;
+    background-image: -moz-linear-gradient(center bottom , #60b842 0%, #7fd13d 85%);
+    border-radius: 10px;
+    box-shadow: 0 2px 0 #4c9434;
+    color: #fff;
+    float: left;
+    font-family: arial,helvetica,sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 50px;
+    padding-left: 20px;
+    text-shadow: 1px 1px 1px #4c9434;
+    width: 150px;
+}
 .btn {
-  border: solid 1px;
-  padding: 5px;
-  margin-left: 10px;
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 #4c9434;
+  color: #fff;
+  float: left;
+  margin-left: 5px;
+  font-family: arial,helvetica,sans-serif;
   font-size: 15px;
-  text-decoration: none;
-  color: black;
+  font-weight: bold;
+  text-align: center;
+  padding-left: 20px;
+  text-shadow: 1px 1px 1px #4c9434;
+  height: 40px;
 }
 .boton {
   width: 65px;
-  height: 45px;
 }
 .boton2 {
   width: 170px;
-  height: 45px;
 }
 .boton_ed {
-  background-color: #FFBF72;
+  background-color: #F18E99;
 }
 .boton_bo {
-  background-color: #FF9C25;
+  background-color: #E73827;
 }
 .boton_nu {
-  background-color: #25B9FF;
+  background-color: #60b842;
+  background-image: -moz-linear-gradient(center bottom , #60b842 0%, #7fd13d 85%);
 }
 .boton_re {
   background-color: #0079B2;
@@ -58,6 +78,7 @@ body {
   clear: both;
   float: left;
   margin-top: 5px;
+  margin-bottom: 5px;
 }
 #titulo {
   float: left;
@@ -72,4 +93,8 @@ body {
 }
 .formu{
   display: none;
+}
+
+a {
+  text-decoration: none;
 }
