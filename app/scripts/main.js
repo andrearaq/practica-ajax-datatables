@@ -7,6 +7,8 @@ function lista(datos) {
     var salida = datos.replace(/,/g, '</li><li>');
     return salida;
 }
+// cargar las clinicas en el select clinicas del formulario
+$('#clinicas').load("php/cargar_clinicas.php");
 
 $(document).ready(function() {
 	$('#miTabla').DataTable({
@@ -61,4 +63,12 @@ $(document).ready(function() {
                }
 	 		} ] 
 	});
+
+	//validacion del formulario
+	$('#formulario').validate({
+	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+	    rules: {
+	        nombre: 'required'
+	        }
+	 });
 });
