@@ -1,6 +1,6 @@
 <?php
 // borrar el doctor de la tabla doctores
-	include("DB.php" );
+	include("DB.php");
 
 	if (isset($_REQUEST['id_doctor'])) {
     	// param was set in the query string

@@ -2,7 +2,7 @@
 // Andrea Gutierrez Muñoz
 'use strict';
 
-// funciona para separar en lineas las clinicas cargadas
+// funcion para separar en lineas las clinicas cargadas
 function lista(datos) {
     var salida = datos.replace(/,/g, '</li><li>');
     return salida;
@@ -11,6 +11,7 @@ function lista(datos) {
 $('#clinicas').load("php/cargar_clinicas.php");
 
 $(document).ready(function() {
+	// configuracion de Datatable
 	$('#miTabla').DataTable({
 		'processing': true,
 		'serverSide': true,
@@ -48,7 +49,7 @@ $(document).ready(function() {
 		},
 	 	'columns': [
 	 		{ 'data': 'nombre', 
-	 		'render': function (data) {return '<a href="#" >' + data + '</a>'}
+	 		'render': function (data) {return '<a class="nomdoctor" href="#" >' + data + '</a>'}
 	 		},
 	 		{ 'data': 'numcolegiado' },
 	 		{ 'data': 'clinica',
@@ -59,7 +60,7 @@ $(document).ready(function() {
 			},
 			{ 'data': 'id_doctor',
 			 'render': function(data) {
-                   return '<a class="btn boton boton_ed" href=http://localhost/php/editar.php?id_doctor=' + data + '>Editar</a><a class="btn boton boton_bo" href=http://localhost/php/borrar.php?id_doctor=' + data + '>Borrar</a>';
+                   return '<a class="btn boton boton_ed" id="beditar" href="#">Editar</a><a id="bborrar" class="btn boton boton_bo" href="#">Borrar</a>';
                }
 	 		} ] 
 	});
@@ -68,7 +69,51 @@ $(document).ready(function() {
 	$('#formulario').validate({
 	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
 	    rules: {
-	        nombre: 'required'
-	        }
-	 });
+	        nombre: {
+	            required: true,
+	            lettersonly: true
+        	},
+        	numcolegiado: {
+        		digits: true
+        	},
+        	clinicas: {
+        		required: true
+        	}
+        }
+    });
+
+    // ventana tipo dialog de jquery-ui para agregar o modificar doctores
+    $("#formu").dialog({
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			"Guardar": function () {
+			// aquí codigo para guardar los datos
+			$(this).dialog("close");
+			},
+			"Cancelar": function () {
+				$(this).dialog("close");
+			}
+		}
+	});
+	// pulsacion del boton nuevo doctor
+	$("#bnuevo").click(function (e) {
+		e.preventDefault();
+		$('#clinicas').load("php/cargar_clinicas.php");
+		$("#formu").dialog("option", "width", 600);
+		$("#formu").dialog("option", "height", 300);
+		$("#formu").dialog("option", "resizable", false);
+		$('#formu').dialog("option", "title", "Añadir Doctor");
+		$("#formu").dialog("open");
+	});
+	//pulsacion del boton editar doctor
+	$('#miTabla').on('click', '#beditar', function (e) {
+		e.preventDefault();
+		$('#clinicas').load("php/cargar_clinicas.php");
+		$("#formu").dialog("option", "width", 600);
+		$("#formu").dialog("option", "height", 300);
+		$("#formu").dialog("option", "resizable", false);
+		$('#formu').dialog("option", "title", "Modificar Doctor");
+		$("#formu").dialog("open");
+	});
 });

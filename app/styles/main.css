@@ -50,17 +50,33 @@ body {
 }
 .boton_ed {
   background-color: #056B4A;
+  opacity: 0.7;
 }
 .boton_bo {
  /* background-color: #E73827;*/
   background-color: #E82C0C;
+  opacity: 0.7;
 }
 .boton_nu {
   background-color: #60b842;
   background-image: -moz-linear-gradient(center bottom , #60b842 0%, #7fd13d 85%);
+  opacity: 0.7;
 }
 .boton_re {
   background-color: #0079B2;
+  opacity: 0.7;
+}
+.boton_ed:hover {
+  opacity: 1;
+}
+.boton_nu:hover {
+  opacity: 1;
+}
+.boton_bo:hover {
+  opacity: 1;
+}
+.boton_re:hover {
+  opacity: 1;
 }
 #botones {
   clear: both;
@@ -85,4 +101,42 @@ body {
 
 a {
   text-decoration: none;
+}
+a:hover .nomdoctor{
+  text-decoration: underline;
+}
+.important{
+    color:red;
+    font-weight:bold;
+}
+.grupo-campos{
+  width: 90%;
+  height: auto;
+  font-size: 14px;
+}
+.grupo-campos label {
+  float: left;
+  padding: 10px;
+  width:100px; 
+}
+.grupo-campos input {
+  width: 65%;
+  max-width: 70%;
+  height: 18px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+
+  box-shadow:inset 1px 1px 5px 1px #808080;
+  -moz-box-shadow: 1px 1px 5px 1px #808080;
+  -webkit-box-shadow: 1px 1px 5px 1px #808080;
+
+  display: inline;
+}
+.grupo-campos select {
+  height: 30px;
+  width: 200px;
+  margin-left: 10px;
+  box-shadow: inset 1px 1px 5px 1px #808080;
+  -moz-box-shadow: inset 1px 1px 5px 1px #808080;
+  -webkit-box-shadow: inset 1px 1px 5px 1px #808080;
 }

@@ -31,7 +31,7 @@
       <div id="titulo"><h1>Clinica Dental - Doctores</h1></div>
       <div id="nombre"><h3>@ Andrea Gutierrez Muñoz - DAW 2015</h3></div>
       <div id="botones">
-        <a href="#" class="btn boton2 boton_nu">Nuevo Doctor</a><a href="#" class="btn boton2 boton_re">Repositorio GitHub</a>
+        <a href="#" id="bnuevo" class="btn boton2 boton_nu">Nuevo Doctor</a><a href="#" id="brepositorio" class="btn boton2 boton_re">Repositorio GitHub</a>
       </div>
        <br/>
         <table id="miTabla" class="display" width="100%" cellspacing="0">
@@ -52,21 +52,25 @@
         </table>
     </div>
 
-     <div class="formu">
+     <div id="formu">
         <form id="formulario" method="post" novalidate>
-          <div class="form-group">
-                <div id="panelModificaciones">
-                  <label for="nombre">Nombre y Apellidos:<span class='importante'>*</span>
-                  </label>
-                  <input type="text" class="form-control"  name="nombre" id="nombre" placeholder="Introduce nombre y apellido">
-                  <label for="numcolegiado">Nº Colegiado:</label>
-                  <input type="text" class="form-control"  name="numcolegiado" id="numcolegiado" placeholder="Introduce nº de colegiado">
-                  <label for="clinicas">Clínicas:<span class='importante'>*</span>
-                  </label>
-                  <select multiple name="clinicas" class="form-control" id="clinicas"></select>
-                  <p><span class='importante'>*</span>Campo requerido</p>
-                </div>
-              </div>
+          <div id="datos">
+            <div class="grupo-campos">
+                <label for="nombre">Nombre y Apellidos:<span class='important'>*</span>
+                </label>
+                <input type="text" name="nombre" id="nombre" placeholder="Introduce nombre y apellido">
+            </div>
+            <div class="grupo-campos">
+                <label for="numcolegiado">Nº Colegiado:</label>
+                <input type="text" name="numcolegiado" id="numcolegiado" placeholder="Introduce nº de colegiado">
+            </div>
+            <div class="grupo-campos">
+                <label for="clinicas">Clínicas:<span class='important'>*</span>
+                </label>
+                <select multiple name="clinicas" id="clinicas"></select>
+                <p><span class='important'>*</span>Campo requerido</p>
+            </div>
+          </div>
         </form>
       </div>
 
