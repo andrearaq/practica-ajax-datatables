@@ -2,15 +2,14 @@
 // Andrea Gutierrez Muñoz
 'use strict';
 
-// funcion para separar en lineas las clinicas cargadas
-function lista(datos) {
-    var salida = datos.replace(/,/g, '</li><li>');
-    return salida;
-}
-// cargar las clinicas en el select clinicas del formulario
-$('#clinicas').load("php/cargar_clinicas.php");
-
 $(document).ready(function() {
+	// funcion para separar en lineas las clinicas cargadas
+	function lista(datos) {
+	    var salida = datos.replace(/,/g, '</li><li>');
+	    return salida;
+	}
+	// cargar las clinicas en el select clinicas del formulario
+	$('#clinicas').load("php/cargar_clinicas.php");
 	// configuracion de Datatable
 	$('#miTabla').DataTable({
 		'processing': true,
@@ -82,8 +81,8 @@ $(document).ready(function() {
         }
     });
 
+	// multiselect de jquery-ui
 	$("#clinicas").multiselect({
-	   autoOpen: false,
 	   header: "Elige una clínica"
 	});
     // ventana tipo dialog de jquery-ui para agregar o modificar doctores

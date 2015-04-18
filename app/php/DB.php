@@ -11,7 +11,8 @@ class DB {
        
         $dwes = new PDO($dsn, $usuario, $contrasena, $opc);
         $resultado = null;
-        if (isset($dwes)) $resultado = $dwes->query($sql);
+        if (isset($dwes))
+           $resultado = $dwes->query($sql);
         return $resultado;
     }
 
@@ -66,10 +67,8 @@ class DB {
         $clinicas = array();
         
         if (isset($resultado)){
-            $row = $resultado->fetch();
-            while ($row != null) {
+            while ($row = $resultado->fetch()) {
                 $clinicas[] = $row;
-                $row = $resultado->fetch();
             }
         }
         return $clinicas;
