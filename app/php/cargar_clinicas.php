@@ -6,7 +6,6 @@
 
     $datos="<option value='0'>Elige clinica...</option>";
     foreach ($clinicas as $id_clinica => $nombre) {
-    }
         $datos .="<option value='".$id_clinica."'>".$nombre."</option>";
     }
    

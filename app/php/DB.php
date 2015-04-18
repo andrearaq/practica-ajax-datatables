@@ -6,9 +6,9 @@ class DB {
     protected static function ejecutaConsulta($sql) {
         $opc = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8");
         $dsn = "mysql:host=localhost;dbname=dental";
-        $usuario = 'root';
-        $contrasena = 'daw2014';
-        
+        $usuario = 'magutierrez_adm';
+        $contrasena = 'admindaw2015';
+       
         $dwes = new PDO($dsn, $usuario, $contrasena, $opc);
         $resultado = null;
         if (isset($dwes)) $resultado = $dwes->query($sql);
@@ -19,7 +19,7 @@ class DB {
         $sql = "DELETE FROM doctores WHERE id_doctor='".$codigo."';";
         $resultado = self::ejecutaConsulta ($sql);
         
-	return $resultado;
+	    return $resultado;
     }
     
     public static function editarDoctor($datos) { 
@@ -30,9 +30,9 @@ class DB {
                 WHERE id_doctor=" . $codigo;
         $resultado = self::ejecutaConsulta ($sql);
 
-	if(isset($resultado)) {
-            
-	}
+    	if(isset($resultado)) {
+                
+    	}
         
            
     }
@@ -44,9 +44,9 @@ class DB {
         $resultado = self::ejecutaConsulta ($sql);
         
 
-	if(isset($resultado)) {
-            
-	}
+    	if(isset($resultado)) {
+                
+    	}
         
     }
     
@@ -57,12 +57,12 @@ class DB {
         $resultado = self::ejecutaConsulta($sql);
         if(isset($resultado)) {
             
-	}
+	    }
     }
     
     public static function cargarClinicas(){
         $sql = "SELECT id_clinica, nombre FROM clinicas;";
-        $resultado = self::ejecutarConsulta($sql);
+        $resultado = self::ejecutaConsulta($sql);
         $clinicas = array();
         
         if (isset($resultado)){

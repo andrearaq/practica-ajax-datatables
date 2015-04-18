@@ -109,22 +109,24 @@ a:hover .nomdoctor{
     color:red;
     font-weight:bold;
 }
+#datos {
+  width: 95%;
+}
 .grupo-campos{
-  width: 90%;
   height: auto;
   font-size: 14px;
 }
 .grupo-campos label {
   float: left;
-  padding: 10px;
-  width:100px; 
+  padding: 8px;
+  width:150px; 
 }
 .grupo-campos input {
-  width: 65%;
+ /* width: 65%;
   max-width: 70%;
-  height: 18px;
+  height: 18px;*/
   margin-bottom: 20px;
-  margin-left: 10px;
+  margin-left: 20px;
 
   box-shadow:inset 1px 1px 5px 1px #808080;
   -moz-box-shadow: 1px 1px 5px 1px #808080;
@@ -133,10 +135,13 @@ a:hover .nomdoctor{
   display: inline;
 }
 .grupo-campos select {
-  height: 30px;
-  width: 200px;
-  margin-left: 10px;
+  height: 40px;
+  width: 300px;
+  margin-left: 20px;
   box-shadow: inset 1px 1px 5px 1px #808080;
   -moz-box-shadow: inset 1px 1px 5px 1px #808080;
   -webkit-box-shadow: inset 1px 1px 5px 1px #808080;
+}
+.texto {
+  font-size: 11px;
 }

@@ -82,6 +82,10 @@ $(document).ready(function() {
         }
     });
 
+	$("#clinicas").multiselect({
+	   autoOpen: false,
+	   header: "Elige una clínica"
+	});
     // ventana tipo dialog de jquery-ui para agregar o modificar doctores
     $("#formu").dialog({
 		autoOpen: false,
@@ -96,10 +100,23 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	$("#modalBorrar").dialog({
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			"Borrar": function () {
+			// aquí codigo para borrar el doctor
+			$(this).dialog("close");
+			},
+			"Cancelar": function () {
+				$(this).dialog("close");
+			}
+		}
+	})
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").click(function (e) {
 		e.preventDefault();
-		$('#clinicas').load("php/cargar_clinicas.php");
 		$("#formu").dialog("option", "width", 600);
 		$("#formu").dialog("option", "height", 300);
 		$("#formu").dialog("option", "resizable", false);
@@ -109,11 +126,18 @@ $(document).ready(function() {
 	//pulsacion del boton editar doctor
 	$('#miTabla').on('click', '#beditar', function (e) {
 		e.preventDefault();
-		$('#clinicas').load("php/cargar_clinicas.php");
 		$("#formu").dialog("option", "width", 600);
 		$("#formu").dialog("option", "height", 300);
 		$("#formu").dialog("option", "resizable", false);
 		$('#formu').dialog("option", "title", "Modificar Doctor");
 		$("#formu").dialog("open");
+	});
+	$('#miTabla').on('click', '#bborrar', function (e) {
+		e.preventDefault();
+		$("#modalBorrar").dialog("option", "width", 500);
+		$("#modalBorrar").dialog("option", "height", 200);
+		$("#modalBorrar").dialog("option", "resizable", false);
+		$('#modalBorrar').dialog("option", "title", "Borrar Doctor");
+		$("#modalBorrar").dialog("open");
 	});
 });
