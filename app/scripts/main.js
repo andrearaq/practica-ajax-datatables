@@ -86,11 +86,14 @@ $(document).ready(function() {
 	$("#clinicas").multiselect({
 	   header: "Elige una clínica"
 	});
+	
+
     // ventana tipo dialog de jquery-ui para agregar o modificar doctores
     $("#formu").dialog({
 		autoOpen: false,
 		modal: true,
-		width: 400,
+		width: 500,
+		height: 400,
 		buttons: {
 			"Guardar": function () {
 			// aquí codigo para guardar los datos
