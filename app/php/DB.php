@@ -64,14 +64,8 @@ class DB {
     public static function cargarClinicas(){
         $sql = "SELECT id_clinica, nombre FROM clinicas;";
         $resultado = self::ejecutaConsulta($sql);
-        $clinicas = array();
-        
-        if (isset($resultado)){
-            while ($row = $resultado->fetch()) {
-                $clinicas[] = $row;
-            }
-        }
-        return $clinicas;
+      
+        return $resultado;
     }
 }
 

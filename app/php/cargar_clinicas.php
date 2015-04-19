@@ -2,13 +2,17 @@
 // Cargar clinicas
     //header("Access-Control-Allow-Origin: *");  // permite usar CORS
     include('DB.php');
-    $clinicas = DB::cargarClinicas();
-
+    $resultado = DB::cargarClinicas();
     $datos="";
-    foreach ($clinicas as $id_clinica => $nombre) {
-        $datos .="<option value='".$id_clinica."'>".$nombre."</option>";
+    if (isset($resultado)){
+            while ($row = $resultado->fetch()) {
+               // $clinicas[] = $row;
+            	$id_clinica = $row['id_clinica'];
+            	$nombre = $row['nombre'];
+            	$datos .="<option value='".$id_clinica."'>".$nombre."</option>";
+            }
     }
-   
+
    echo $datos;
    
 ?>

@@ -115,23 +115,26 @@ a {
 .grupo-campos{
   height: auto;
   font-size: 14px;
+  display: block;
   clear: both;
 }
 .grupo-campos label {
+  display: inline;
   float: left;
   padding: 8px;
- /* width:100px; */
+  width:150px;
 }
 .grupo-campos input {
  /* width: 65%;
   max-width: 70%;
   height: 18px;*/
+  width: 250px;
   margin-bottom: 20px;
-/*margin-left: 10px;*/
+  margin-left: 5px;
 
- /*box-shadow:inset 1px 1px 5px 1px #808080;
+ box-shadow:inset 1px 1px 5px 1px #808080;
   -moz-box-shadow: 1px 1px 5px 1px #808080;
-  -webkit-box-shadow: 1px 1px 5px 1px #808080;*/
+  -webkit-box-shadow: 1px 1px 5px 1px #808080;
 
   display: inline;
 }

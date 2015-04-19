@@ -10,6 +10,7 @@ $(document).ready(function() {
 	}
 	// cargar las clinicas en el select clinicas del formulario
 	$('#clinicas').load("php/cargar_clinicas.php");
+	
 	// configuracion de Datatable
 	$('#miTabla').DataTable({
 		'processing': true,
@@ -89,6 +90,7 @@ $(document).ready(function() {
     $("#formu").dialog({
 		autoOpen: false,
 		modal: true,
+		width: 400,
 		buttons: {
 			"Guardar": function () {
 			// aquí codigo para guardar los datos
@@ -111,8 +113,11 @@ $(document).ready(function() {
 			"Cancelar": function () {
 				$(this).dialog("close");
 			}
-		}
-	})
+		},
+		open: function() { 
+			$("#dborrar").html('maria');
+		} 
+	});
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").click(function (e) {
 		e.preventDefault();
