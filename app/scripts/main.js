@@ -62,7 +62,12 @@ $(document).ready(function() {
 			 'render': function(data) {
                    return '<a class="btn boton boton_ed" id="beditar" href="#">Editar</a><a id="bborrar" class="btn boton boton_bo" href="#">Borrar</a>';
                }
-	 		} ] 
+	 		}],
+	 	'columnDefs': [{       // impedir que se pueda ordenar por la columna Editar
+            "targets": [3],
+            "searchable": false,
+            "orderable": false
+        }]	 
 	});
 
 	//validacion del formulario
@@ -76,13 +81,26 @@ $(document).ready(function() {
         	numcolegiado: {
         		digits: true
         	},
-        	clinicas: {
-        		required: true
+        	'clinicas[]': {
+        		required: true,
+        		minlenght: 1
         	}
-        }
+        },
+        messages: {
+	        numcolegiado: {
+	            digits: "El numero de colegiado debe tener digitos."
+	        },
+	        clinicas: "Selecciona al menos una clínica."
+    	},  //fin messages
+	    submitHandler: function() {
+	    }
     });
 
-	// multiselect de jquery-ui
+	jQuery.validator.addMethod("lettersonly", function(value, element) {
+		return this.optional(element) || /^[a-z ñáéíóú]+$/i.test(value);
+	}, "El nombre solo puede contener letras.");
+
+	// multiselect de jquery-ui para seleccionar varias clinicas
 	$("#clinicas").multiselect({
 	   header: "Elige una clínica"
 	});
@@ -92,7 +110,7 @@ $(document).ready(function() {
     $("#formu").dialog({
 		autoOpen: false,
 		modal: true,
-		width: 500,
+		width: 700,
 		height: 400,
 		buttons: {
 			"Guardar": function () {
@@ -102,12 +120,19 @@ $(document).ready(function() {
 			"Cancelar": function () {
 				$(this).dialog("close");
 			}
-		}
+		},
+		open: function() { 
+			$('#nombre').val('');
+        	$('#numcolegiado').val('');
+        	$('#clinicas').load("php/cargar_clinicas.php");
+		} 
 	});
 
 	$("#modalBorrar").dialog({
 		autoOpen: false,
 		modal: true,
+		width: 500,
+		height: 200,
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
@@ -118,14 +143,12 @@ $(document).ready(function() {
 			}
 		},
 		open: function() { 
-			$("#dborrar").html('maria');
+			$("#dborrar").html($('#nombre').val());
 		} 
 	});
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").click(function (e) {
 		e.preventDefault();
-		$("#formu").dialog("option", "width", 600);
-		$("#formu").dialog("option", "height", 300);
 		$("#formu").dialog("option", "resizable", false);
 		$('#formu').dialog("option", "title", "Añadir Doctor");
 		$("#formu").dialog("open");
@@ -133,16 +156,12 @@ $(document).ready(function() {
 	//pulsacion del boton editar doctor
 	$('#miTabla').on('click', '#beditar', function (e) {
 		e.preventDefault();
-		$("#formu").dialog("option", "width", 600);
-		$("#formu").dialog("option", "height", 300);
 		$("#formu").dialog("option", "resizable", false);
 		$('#formu').dialog("option", "title", "Modificar Doctor");
 		$("#formu").dialog("open");
 	});
 	$('#miTabla').on('click', '#bborrar', function (e) {
 		e.preventDefault();
-		$("#modalBorrar").dialog("option", "width", 500);
-		$("#modalBorrar").dialog("option", "height", 200);
 		$("#modalBorrar").dialog("option", "resizable", false);
 		$('#modalBorrar').dialog("option", "title", "Borrar Doctor");
 		$("#modalBorrar").dialog("open");

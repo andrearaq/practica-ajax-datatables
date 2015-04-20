@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="styles/jquery-ui.css" />
     <link rel="stylesheet" href="styles/jquery-ui.structure.css" />
     <link rel="stylesheet" href="styles/jquery-ui.theme.css" />
-    <link rel="stylesheet" href="styles/ui.multiselect.css" />
+    <link rel="stylesheet" href="styles/jquery.multiselect.css" />
     <!-- endbuild -->
   </head>
   <body>
@@ -52,7 +52,7 @@
           </tfoot>
         </table>
     </div>
-
+  <!-- formulario para agregar doctor y modificar datos doctor -->
      <div id="formu">
         <form id="formulario" method="post" novalidate>
           <div id="datos">
@@ -75,8 +75,9 @@
           </div>
         </form>
       </div>
+      <!-- texto ventana modal Borrar doctor -->
     <div id="modalBorrar">
-      <p>¿Está seguro de borrar el Doctor/a<span id="dborrar"></span>?</p>
+      <p>¿Está seguro de borrar el Doctor/a <span id="dborrar"></span>?</p>
     </div>
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -101,7 +102,7 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
-        <script src="scripts/ui.multiselect.js"></script>
+        <script src="scripts/jquery.multiselect.js"></script>
         <!-- endbuild -->
 </body>
 </html>
