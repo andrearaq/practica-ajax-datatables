@@ -32,8 +32,8 @@ body {
   float: left;
   font-family: arial,helvetica,sans-serif;
   text-align: center;
-  padding-top: 10px;
-  height: 25px;
+  padding-top: 5px;
+  height: 40px;
 
 }
 .boton {
@@ -57,25 +57,10 @@ body {
   background-color: #E82C0C;
   opacity: 0.7;
 }
-.boton_nu {
-  background-color: #60b842;
-  background-image: -moz-linear-gradient(center bottom , #60b842 0%, #7fd13d 85%);
-  opacity: 0.7;
-}
-.boton_re {
-  background-color: #0079B2;
-  opacity: 0.7;
-}
 .boton_ed:hover {
   opacity: 1;
 }
-.boton_nu:hover {
-  opacity: 1;
-}
 .boton_bo:hover {
-  opacity: 1;
-}
-.boton_re:hover {
   opacity: 1;
 }
 #botones {
@@ -129,6 +114,7 @@ a {
   max-width: 70%;
   height: 18px;*/
   width: 200px;
+  margin-top: 10px;
   margin-bottom: 20px;
   margin-left: 5px;
 

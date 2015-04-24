@@ -10,7 +10,7 @@ $(document).ready(function() {
 	}
 	// cargar las clinicas en el select clinicas del formulario
 	$('#clinicas').load("php/cargar_clinicas.php");
-	
+
 	// configuracion de Datatable
 	var listaTabla = $('#miTabla').DataTable({
 		'processing': true,
@@ -60,7 +60,8 @@ $(document).ready(function() {
 			},
 			{ 'data': 'id_doctor',
 			 'render': function(data) {
-                   return '<a class="btn boton boton_ed" id="beditar" href="#">Editar</a><a id="bborrar" class="btn boton boton_bo" href="#">Borrar</a>';
+			 		return '<button id="beditar" class="btn boton boton_ed">Editar</button><button id="bborrar" class="btn boton boton_bo">Borrar</button>'
+                 //  return '<a class="btn boton boton_ed" id="beditar" href="#">Editar</a><a id="bborrar" class="btn boton boton_bo" href="#">Borrar</a>';
                }
 	 		}],
 	 	'columnDefs': [{       // impedir que se pueda ordenar por la columna Editar
@@ -94,10 +95,6 @@ $(document).ready(function() {
     	},  //fin messages
 	    submitHandler: function() {
 	    }
-	    /*,
-	    errorPlacement: function(error, element){
-	    	error.appendTo.prev(".ui-state-error").append();
-	    }*/
     });
 
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
@@ -136,12 +133,12 @@ $(document).ready(function() {
 			}
 		},
 		open: function(event, ui) { 
+
 			$('#nombre').val('');
         	$('#numcolegiado').val('');
         	$('#clinicas').load("php/cargar_clinicas.php");
 		},
 		close: function() {
-			allFields.removeClass( "ui-state-error" );
 		}
 	});
 
@@ -163,6 +160,33 @@ $(document).ready(function() {
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
+				var nRow = $("#miTabla").parents('tr')[0];
+        		var aData = listaTabla.row(nRow).data();
+        		var idDoctor = aData.id_doctor;
+				$.ajax({
+	               /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
+	               type: 'POST',
+	               dataType: 'json',
+	               url: 'php/borrar.php',
+	               //estos son los datos que queremos actualizar, en json:
+	               data: {
+	                   id_doctor: idDoctor
+	               },
+	               error: function(xhr, status, error) {
+	                   //mostraríamos alguna ventana de alerta con el error
+	                   alert("Ha entrado en error");
+	               },
+	               success: function(data) {
+	                   //obtenemos el mensaje del servidor, es un array!!!
+	                   //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
+	                   //actualizamos datatables:
+	                   /*para volver a pedir vía ajax los datos de la tabla*/
+	                   miTabla.fnDraw();
+	               },
+	               complete: {
+	                   //si queremos hacer algo al terminar la petición ajax
+	               }
+	           });
 				$(this).dialog("close");
 			},
 			"Cancelar": function () {
@@ -170,17 +194,28 @@ $(document).ready(function() {
 			}
 		},
 		open: function(event, ui) { 
-			var nRow = $(this).parents('tr')[0];
-            var aData = listaTabla.row(nRow).data();
-           $('#dborrar').html(aData.nombre);
+			var nRow = $("#miTabla").parents('tr')[0];
+        	var aData = listaTabla.row(nRow).data();
+        	var idDoctor = aData.id_doctor;
+        	$('#dborrar').html(aData.nombre);
 		} 
 	});
 	// pulsacion del boton nuevo doctor
-	$("#bnuevo").click(function (e) {
+	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
 		$('#formu').dialog("option", "title", "Añadir Doctor");
 		$("#formu").dialog("open");
 	});
+	//pulsacion boton Repositorio Github
+	$('#brepositorio').button({
+		icons: {
+      		primary: 'ui-icon ui-icon-newwin'
+   		}
+	}).click(function(e){
+		e.preventDefault();
+   		alert("Me has pulsado bien!!");
+	});
+	$("#beditar").button();
 	//pulsacion del boton editar doctor
 	$('#miTabla').on('click', '#beditar', function (e) {
 		e.preventDefault();
@@ -193,10 +228,12 @@ $(document).ready(function() {
 		$('#formu').dialog("option", "title", "Modificar Doctor");
 		$("#formu").dialog("open");
 	});
+	$("#bborrar").button();
 	$('#miTabla').on('click', '#bborrar', function (e) {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
         var aData = listaTabla.row(nRow).data();
+        var idDoctor = aData.id_doctor;
         $('#dborrar').html(aData.nombre);
 		$('#modalBorrar').dialog("option", "title", "Borrar Doctor");
 		$("#modalBorrar").dialog("open");
