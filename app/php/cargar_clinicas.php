@@ -14,5 +14,17 @@
     }
 
    echo $datos;
-   
+  
+  /*  $datos = array();
+    if (isset($resultado)){
+            while ($row = $resultado->fetch()) {
+               // $clinicas[] = $row;
+                $datos[] = array(
+                'id_clinica' = $row['id_clinica'],
+                'nombre' = $row['nombre']
+                );
+            }
+    }
+
+   echo json_encode($datos);*/
 ?>

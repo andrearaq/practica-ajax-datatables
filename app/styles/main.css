@@ -119,10 +119,10 @@ a {
   clear: both;
 }
 .grupo-campos label {
-  display: inline;
+  display: block;
   float: left;
   padding: 8px;
-  width:150px;
+  /*width:150px;*/
 }
 .grupo-campos input {
  /* width: 65%;
@@ -136,7 +136,6 @@ a {
   -moz-box-shadow: 1px 1px 5px 1px #808080;
   -webkit-box-shadow: 1px 1px 5px 1px #808080;
 
-  display: inline;
 }
 .grupo-campos select {
   height: 40px;

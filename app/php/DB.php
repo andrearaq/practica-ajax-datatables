@@ -52,7 +52,7 @@ class DB {
     }
     
     public static function nuevaClinica($datos){
-        $sql = "INSERT id_doctor, id_clinica, numdoctor INTRO clinica_doctor ";
+        $sql = "INSERT id_doctor, id_clinica, numdoctor INTO clinica_doctor ";
         $sql.= "VALUES (?, ?, ?);";
         
         $resultado = self::ejecutaConsulta($sql);

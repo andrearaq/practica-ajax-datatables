@@ -12,7 +12,7 @@ $(document).ready(function() {
 	$('#clinicas').load("php/cargar_clinicas.php");
 	
 	// configuracion de Datatable
-	$('#miTabla').DataTable({
+	var listaTabla = $('#miTabla').DataTable({
 		'processing': true,
 		'serverSide': true,
 		'ajax': 'php/cargar_doctores.php',
@@ -71,7 +71,7 @@ $(document).ready(function() {
 	});
 
 	//validacion del formulario
-	$('#formulario').validate({
+	var formulario = $('#formulario').validate({
 	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
 	    rules: {
 	        nombre: {
@@ -94,6 +94,10 @@ $(document).ready(function() {
     	},  //fin messages
 	    submitHandler: function() {
 	    }
+	    /*,
+	    errorPlacement: function(error, element){
+	    	error.appendTo.prev(".ui-state-error").append();
+	    }*/
     });
 
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
@@ -101,17 +105,27 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-	$("#clinicas").multiselect({
+	var listaClinicas = $("#clinicas").multiselect({
 	   header: "Elige una clínica"
 	});
 	
 
     // ventana tipo dialog de jquery-ui para agregar o modificar doctores
-    $("#formu").dialog({
+    var ventanaDialogo = $("#formu").dialog({
 		autoOpen: false,
 		modal: true,
 		width: 700,
 		height: 400,
+		resizable: false,
+		position: { my: "center", at: "center", of: window },
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "fade",
+			duration: 1000
+		},
 		buttons: {
 			"Guardar": function () {
 			// aquí codigo para guardar los datos
@@ -121,49 +135,98 @@ $(document).ready(function() {
 				$(this).dialog("close");
 			}
 		},
-		open: function() { 
+		open: function(event, ui) { 
 			$('#nombre').val('');
         	$('#numcolegiado').val('');
         	$('#clinicas').load("php/cargar_clinicas.php");
-		} 
+		},
+		close: function() {
+			allFields.removeClass( "ui-state-error" );
+		}
 	});
 
-	$("#modalBorrar").dialog({
+	var ventanaBorrar = $("#modalBorrar").dialog({
 		autoOpen: false,
 		modal: true,
 		width: 500,
 		height: 200,
+		resizable: false,
+		position: { my: "center", at: "center", of: window },
+		show: {
+			effect: "blind",
+			duration: 1000
+		},
+		hide: {
+			effect: "fade",
+			duration: 1000
+		},
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
-			$(this).dialog("close");
+				$(this).dialog("close");
 			},
 			"Cancelar": function () {
 				$(this).dialog("close");
 			}
 		},
-		open: function() { 
-			$("#dborrar").html($('#nombre').val());
+		open: function(event, ui) { 
+			var nRow = $(this).parents('tr')[0];
+            var aData = listaTabla.row(nRow).data();
+           $('#dborrar').html(aData.nombre);
 		} 
 	});
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").click(function (e) {
 		e.preventDefault();
-		$("#formu").dialog("option", "resizable", false);
 		$('#formu').dialog("option", "title", "Añadir Doctor");
 		$("#formu").dialog("open");
 	});
 	//pulsacion del boton editar doctor
 	$('#miTabla').on('click', '#beditar', function (e) {
 		e.preventDefault();
-		$("#formu").dialog("option", "resizable", false);
+	//	var nfila = $(this).parents('tr')[0];
+    //    var datosfila = listaTabla.row(nfila).data();
+    //    console.log("valores fila: "+ datosfila.id_doctor);
+       // $('#idDoctorEditar').val(aData.idDoctor);
+    //    $('#nombre').val(datosfila.nombre);
+     //   $('#numcolegiado').val(datosfila.numcolegiado);
 		$('#formu').dialog("option", "title", "Modificar Doctor");
 		$("#formu").dialog("open");
 	});
 	$('#miTabla').on('click', '#bborrar', function (e) {
 		e.preventDefault();
-		$("#modalBorrar").dialog("option", "resizable", false);
+		var nRow = $(this).parents('tr')[0];
+        var aData = listaTabla.row(nRow).data();
+        $('#dborrar').html(aData.nombre);
 		$('#modalBorrar').dialog("option", "title", "Borrar Doctor");
 		$("#modalBorrar").dialog("open");
 	});
+
+	// cargar las clinicas en el select clinicas del formulario
+/*	function cargarClinicas() {
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/cargar_clinicas.php',
+               async: false,
+               //estos son los datos que queremos actualizar, en json:
+               // {parametro1: valor1, parametro2, valor2, ….}
+               //data: { id_clinica: id_clinica, nombre: nombre, ….,  id_tarifa: id_tarifa },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+               },
+               success: function(data) {
+                   $('#clinicas').empty();
+                   $.each(data, function() {
+                       $('#clinicas').append(
+                           $('<option></option>').val(this.id_clinica).html(this.nombre)
+                       );
+                   });
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+       }
+    cargarClinicas();*/
 });

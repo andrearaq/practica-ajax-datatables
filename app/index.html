@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="styles/jquery-ui.structure.css" />
     <link rel="stylesheet" href="styles/jquery-ui.theme.css" />
     <link rel="stylesheet" href="styles/jquery.multiselect.css" />
+    <link rel="stylesheet" href="styles/jquery.multiselect.filter.css" />
     <!-- endbuild -->
   </head>
   <body>
@@ -53,30 +54,36 @@
         </table>
     </div>
   <!-- formulario para agregar doctor y modificar datos doctor -->
-     <div id="formu">
+     <div id="formu" role="dialog">
         <form id="formulario" method="post" novalidate>
-          <div id="datos">
+       <!--   <div id="datos">-->
+          <fieldset>
             <div class="grupo-campos">
                 <label for="nombre">Nombre y Apellidos:<span class='important'>*</span>
                 </label>
-                <input type="text" name="nombre" id="nombre" placeholder="Introduce nombre y apellido">
+                <span class="ui-state-error"></span>
+                <input type="text" name="nombre" id="nombre" placeholder="Introduce nombre y apellido" class="text ui-widget-content ui-corner-all">
             </div>
             <div class="grupo-campos">
                 <label for="numcolegiado">Nº Colegiado:</label>
-                <input type="text" name="numcolegiado" id="numcolegiado" placeholder="Introduce nº de colegiado">
+                <span class="ui-state-error"></span>
+                <input type="text" name="numcolegiado" id="numcolegiado" placeholder="Introduce nº de colegiado" class="text ui-widget-content ui-corner-all">
             </div>
             <div class="grupo-campos">
                 <label for="clinicas">Clínicas:<span class='important'>*</span>
                 </label>
-                <select name="clinicas[]" class="multiselect" multiple="multiple" id="clinicas"></select>
+                <span class="ui-state-error"></span>
+                <select name="clinicas[]" class="multiselect" multiple="multiple" id="clinicas">
+                </select>
                 <br/>
                 <p class="texto"><span class='important'>*</span>Campo requerido</p>
             </div>
-          </div>
+            </fieldset>
+       <!--   </div>-->
         </form>
       </div>
       <!-- texto ventana modal Borrar doctor -->
-    <div id="modalBorrar">
+    <div id="modalBorrar" role="dialog">
       <p>¿Está seguro de borrar el Doctor/a <span id="dborrar"></span>?</p>
     </div>
 
@@ -103,6 +110,7 @@
         <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <script src="scripts/jquery.multiselect.js"></script>
+        <script src="scripts/jquery.multiselect.filter.js"></script>
         <!-- endbuild -->
 </body>
 </html>
