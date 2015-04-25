@@ -117,11 +117,11 @@ $(document).ready(function() {
 		position: { my: "center", at: "center", of: window },
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 400
 		},
 		hide: {
 			effect: "fade",
-			duration: 1000
+			duration: 800
 		},
 		buttons: {
 			"Guardar": function () {
@@ -151,11 +151,11 @@ $(document).ready(function() {
 		position: { my: "center", at: "center", of: window },
 		show: {
 			effect: "blind",
-			duration: 1000
+			duration: 400
 		},
 		hide: {
 			effect: "fade",
-			duration: 1000
+			duration: 800
 		},
 		buttons: {
 			"Borrar": function () {

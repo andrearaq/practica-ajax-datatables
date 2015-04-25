@@ -13,19 +13,28 @@
 	$respuesta = DB::borrarDoctor($id_doctor);
 
 	// Comprobar el resultado
-	if($respuesta==0){
+	if(!$respuesta){
 	    $mensaje="Imposible borrar ese doctor.";
-	    $estado=0;
+	    $estado=1;
 	}
 	else {
-	    $estado=1;
-	    $mensaje="Doctor borrado correctamente.";
+		// ahora se borran las clinicas de ese doctor
+		$respuesta= DB::borrarClinicas($id_doctor);
+		if(!$respuesta){
+		    $mensaje="Imposible borrar las clinicas de ese doctor.";
+		    $estado=1;
+		}
+		else {
+		    $estado=0;
+		    $mensaje="Clinicas de ese doctor borradas correctamente.";
+		}
 	}
 	$resultado = array();
 	$resultado[] = array(
 	    'mensaje' => $mensaje,
 	    'estado' => $estado
 	);
+
 	echo json_encode($resultado);
 
 ?>
