@@ -6,7 +6,7 @@
 	$numcoleg = $_POST["numcolegiado"];
 	$clinicas = $_POST["clinicas"];
 
-	$respuesta=DB::nuevoDoctor($nombre,$numcolegiado,$id_doctor);
+	$respuesta=DB::nuevoDoctor($id_doctor,$nombre,$numcolegiado);
 	if(!$respuesta){
 	    $mensaje="Imposible agregar doctor.";
 	    $estado=1;

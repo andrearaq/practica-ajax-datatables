@@ -6,7 +6,7 @@
 	$numcoleg = $_POST["numcolegiado"];
 	$clinicas = $_POST["clinicas"];
 
-	$respuesta=DB::editarDoctor($nombre,$numcolegiado,$id_doctor);
+	$respuesta=DB::editarDoctor($id_doctor,$nombre,$numcolegiado);
 	if(!$respuesta){
 	    $mensaje="Imposible modificar datos doctor.";
 	    $estado=1;

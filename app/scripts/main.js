@@ -232,16 +232,14 @@ $(document).ready(function() {
 				/*var nRow = $("#miTabla").parents('tr')[0];
         		var aData = listaTabla.row(nRow).data();*/
         		var nomDoctor = $('#dborrar').html();
-        		var idDoctor = parseInt($('#doctorB').html());
+        		var idDoctor = $('#doctorB').html();
         		console.log("doctor a borrar "+idDoctor);
 				$.ajax({
-	               /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
-	               type: 'POST',
-	               dataType: 'json',
-	               url: 'php/borrar.php',
+					url: 'php/borrar.php',
+	               	type: 'POST',
+	               	dataType: 'json',
 	               //estos son los datos que queremos actualizar, en json:
 	               data: {
-	               		nombre: nomDoctor,
 	                    id_doctor: idDoctor
 	               },
 	               error: function(xhr, status, error) {

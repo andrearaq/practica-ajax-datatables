@@ -8,26 +8,34 @@ class DB {
         $usuario = 'magutierrez_adm';
         $contrasena = 'admindaw2015';
        
-        $dwes = new PDO($dsn, $usuario, $contrasena, $opc);
-        $resultado = null;
-        if (isset($dwes))
-           $resultado = $dwes->query($sql);
+        try {
+            $dwes = new PDO($dsn, $usuario, $contrasena, $opc);
+            $dwes->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $dwes->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            $resultado = null;
+            if (isset($dwes))
+               $resultado = $dwes->query($sql);
+        } 
+        catch(Exception $e) {
+            echo 'Exception -> ';
+            var_dump($e->getMessage());
+        }
+        
         return $resultado;
     }
     //borrar un doctor
     public static function borrarDoctor($codigo) {
-       // $sql = "DELETE FROM doctores WHERE id_doctor=".$codigo.";";
-        $sql = "DELETE FROM doctores WHERE nombre='".$codigo."';";
+        $sql = "DELETE FROM doctores WHERE id_doctor=".$codigo.";";
         $resultado = self::ejecutaConsulta ($sql);
         
 	    return $resultado;
     }
     //modificar datos de los doctores
-    public static function editarDoctor($nombre, $numcolegiado, $codigo) { 
+    public static function editarDoctor($codigo, $nombre, $numcolegiado) { 
         
         $sql = "UPDATE doctores SET
                 nombre = '".$nombre ."',
-                numcolegiado = ".$numcolegiado ."
+                numcolegiado = '".$numcolegiado."'
                 WHERE id_doctor= ". $codigo.";";
         $resultado = self::ejecutaConsulta ($sql);
 
@@ -37,7 +45,7 @@ class DB {
     public static function nuevoDoctor($codigo, $nombre, $numcolegiado) {
         
         $sql = "INSERT INTO doctores (id_doctor, nombre, numcolegiado) VALUES";
-        $sql .= "(".$codigo.",'".$nombre."',".$numcolegiado.");";
+        $sql .= "(".$codigo.",'".$nombre."','".$numcolegiado."');";
         
         $resultado = self::ejecutaConsulta ($sql);
     	return $resultado;

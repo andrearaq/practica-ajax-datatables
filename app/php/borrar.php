@@ -2,23 +2,15 @@
 // borrar el doctor de la tabla doctores
 	include("DB.php");
 
-	/*if (isset($_REQUEST['id_doctor'])) {
+	if (isset($_REQUEST['id_doctor'])) {
     	// param was set in the query string
 	    if (empty($_REQUEST['id_doctor'])) {
 	        return "El parámetro id_doctor está vacío!";
 	    }
 	    $id_doctor = $_REQUEST['id_doctor'];
-	}*/
-	if (isset($_REQUEST['nombre'])) {
-    	// param was set in the query string
-	    if (empty($_REQUEST['nombre'])) {
-	        return "El parámetro id_doctor está vacío!";
-	    }
-	    $nombre = $_REQUEST['nombre'];
-	    $id_doctor = $_REQUEST['id_doctor'];
 	}
-	//$respuesta = DB::borrarDoctor($id_doctor);
-	$respuesta = DB::borrarDoctor($nombre);
+	
+	$respuesta = DB::borrarDoctor($id_doctor);
 	// Comprobar el resultado
 	if(!$respuesta){
 	    $mensaje="Imposible borrar ese doctor.";
