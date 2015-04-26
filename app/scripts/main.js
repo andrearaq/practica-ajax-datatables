@@ -9,8 +9,9 @@ $(document).ready(function() {
 	    return salida;
 	}
 	// cargar las clinicas en el select clinicas del formulario
-	$('#clinicas').load("php/cargar_clinicas.php");
-
+//	$('#clinicasE').load("php/cargar_clinicas.php");
+//	$('#clinicasN').load("php/cargar_clinicas.php");
+	
 	// configuracion de Datatable
 	var listaTabla = $('#miTabla').DataTable({
 		'processing': true,
@@ -70,28 +71,52 @@ $(document).ready(function() {
             "orderable": false
         }]	 
 	});
-
-	//validacion del formulario
-	var formulario = $('#formulario').validate({
+	//validacion del formulario de nuevo Doctor
+	var formularioN = $('#formularioN').validate({
 	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
 	    rules: {
-	        nombre: {
+	        nombreN: {
 	            required: true,
 	            lettersonly: true
         	},
-        	numcolegiado: {
+        	numcolegiadoN: {
         		digits: true
         	},
-        	'clinicas[]': {
+        	'clinicasN[]': {
         		required: true,
         		minlenght: 1
         	}
         },
         messages: {
-	        numcolegiado: {
+	        numcolegiadoN: {
 	            digits: "El numero de colegiado debe tener digitos."
 	        },
-	        clinicas: "Selecciona al menos una clínica."
+	        clinicasN: "Selecciona al menos una clínica."
+    	},  //fin messages
+	    submitHandler: function() {
+	    }
+    });
+	//validacion del formulario de editar Doctor
+	var formularioE = $('#formularioE').validate({
+	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+	    rules: {
+	        nombreE: {
+	            required: true,
+	            lettersonly: true
+        	},
+        	numcolegiadoE: {
+        		digits: true
+        	},
+        	'clinicasE[]': {
+        		required: true,
+        		minlenght: 1
+        	}
+        },
+        messages: {
+	        numcolegiadoE: {
+	            digits: "El numero de colegiado debe tener digitos."
+	        },
+	        clinicasE: "Selecciona al menos una clínica."
     	},  //fin messages
 	    submitHandler: function() {
 	    }
@@ -102,13 +127,18 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-	var listaClinicas = $("#clinicas").multiselect({
+	$(".multiselect").multiselect({
+		header: "Elige una clínica"
+	});
+	/*
+	$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
 	});
-	
-
-    // ventana tipo dialog de jquery-ui para agregar o modificar doctores
-    var ventanaDialogo = $("#formu").dialog({
+	$("#clinicasN").multiselect({
+	   header: "Elige una clínica"
+	});*/
+	// ventana tipo dialog de jquery-ui para agregar doctores
+    var ventanaDialogo = $("#formuNuevo").dialog({
 		autoOpen: false,
 		modal: true,
 		width: 700,
@@ -133,15 +163,54 @@ $(document).ready(function() {
 			}
 		},
 		open: function(event, ui) { 
-
-			$('#nombre').val('');
-        	$('#numcolegiado').val('');
-        	$('#clinicas').load("php/cargar_clinicas.php");
+	
+       // $('#idDoctorEditar').val(aData.idDoctor);
+        	$('#nombreN').val('');
+        	$('#numcolegiadoN').val('');
+        	$('#clinicasN').load("php/cargar_clinicas.php");
 		},
 		close: function() {
 		}
 	});
 
+    // ventana tipo dialog de jquery-ui para modificar doctores
+    var ventanaDialogo = $("#formuEditar").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 700,
+		height: 400,
+		resizable: false,
+		position: { my: "center", at: "center", of: window },
+		show: {
+			effect: "blind",
+			duration: 400
+		},
+		hide: {
+			effect: "fade",
+			duration: 800
+		},
+		buttons: {
+			"Guardar": function () {
+			// aquí codigo para guardar los datos
+			$(this).dialog("close");
+			},
+			"Cancelar": function () {
+				$(this).dialog("close");
+			}
+		},
+		open: function(event, ui) { 
+			var nRow = $("#miTabla").parents('tr')[0];
+        	var aData = listaTabla.row(nRow).data();
+	
+	       // $('#idDoctorEditar').val(aData.idDoctor);
+	        $('#nombreE').val(aData.nombre);
+	        $('#numcolegiadoE').val(aData.numcolegiado);
+			$('#clinicasE').load("php/cargar_clinicas.php");
+		},
+		close: function() {
+		}
+	});
+    // ventana dialog para Borrar doctor
 	var ventanaBorrar = $("#modalBorrar").dialog({
 		autoOpen: false,
 		modal: true,
@@ -208,7 +277,6 @@ $(document).ready(function() {
 		                        message: "Error al borrar el doctor." + data[0].mensaje
 		                    });
 		                }
-	                   
 	               },
 	               complete: {
 	                   //si queremos hacer algo al terminar la petición ajax
@@ -230,8 +298,11 @@ $(document).ready(function() {
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
-		$('#formu').dialog("option", "title", "Añadir Doctor");
-		$("#formu").dialog("open");
+		$('#nombreN').val('');
+        $('#numcolegiadoN').val('');
+        $('#clinicasN').load("php/cargar_clinicas.php");
+		$('#formuNuevo').dialog("option", "title", "Añadir Doctor");
+		$('#formuNuevo').dialog("open");
 	});
 	//pulsacion boton Repositorio Github
 	$('#brepositorio').button({
@@ -242,19 +313,36 @@ $(document).ready(function() {
 		e.preventDefault();
    		location.href='https://github.com/andrearaq/practica-ajax-datatables';
 	});
+	// boton Editar Doctor
 	$("#beditar").button();
 	//pulsacion del boton editar doctor
 	$('#miTabla').on('click', '#beditar', function (e) {
 		e.preventDefault();
-	//	var nfila = $(this).parents('tr')[0];
-    //    var datosfila = listaTabla.row(nfila).data();
-    //    console.log("valores fila: "+ datosfila.id_doctor);
+		var nRow = $(this).parents('tr')[0];
+        var aData = listaTabla.row(nRow).data();
+	
        // $('#idDoctorEditar').val(aData.idDoctor);
-    //    $('#nombre').val(datosfila.nombre);
-     //   $('#numcolegiado').val(datosfila.numcolegiado);
-		$('#formu').dialog("option", "title", "Modificar Doctor");
-		$("#formu").dialog("open");
+        $('#nombreE').val(aData.nombre);
+        $('#numcolegiadoE').val(aData.numcolegiado);
+        $('#clinicasE').load("php/cargar_clinicas.php");
+		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
+		$("#formuEditar").dialog("open");
 	});
+	// pulsacion de un nombre de Doctor
+	$('#miTabla').on('click', '.nomdoctor', function (e) {
+		e.preventDefault();
+		var nRow = $(this).parents('tr')[0];
+        var aData = listaTabla.row(nRow).data();
+	
+       // $('#idDoctorEditar').val(aData.idDoctor);
+        $('#nombreE').val(aData.nombre);
+        $('#numcolegiadoE').val(aData.numcolegiado);
+
+		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
+		$("#formuEditar").dialog("open");
+	});
+
+	// botón de borrar Doctor
 	$("#bborrar").button();
 	$('#miTabla').on('click', '#bborrar', function (e) {
 		e.preventDefault();
@@ -270,7 +358,7 @@ $(document).ready(function() {
 /*	function cargarClinicas() {
            $.ajax({
                type: 'POST',
-               dataType: 'json',
+               dataType: 'html',
                url: 'php/cargar_clinicas.php',
                async: false,
                //estos son los datos que queremos actualizar, en json:
@@ -280,11 +368,9 @@ $(document).ready(function() {
                    //mostraríamos alguna ventana de alerta con el error
                },
                success: function(data) {
-                   $('#clinicas').empty();
+                   $('.multiselect').empty();
                    $.each(data, function() {
-                       $('#clinicas').append(
-                           $('<option></option>').val(this.id_clinica).html(this.nombre)
-                       );
+                       $('.multiselect').append(data);
                    });
                },
                complete: {
