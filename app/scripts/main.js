@@ -160,9 +160,11 @@ $(document).ready(function() {
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
-				var nRow = $("#miTabla").parents('tr')[0];
-        		var aData = listaTabla.row(nRow).data();
-        		var idDoctor = aData.id_doctor;
+				/*var nRow = $("#miTabla").parents('tr')[0];
+        		var aData = listaTabla.row(nRow).data();*/
+        		var nomDoctor = $('#dborrar').html();
+        		var idDoctor = parseInt($('#doctorB').html());
+        		console.log("doctor a borrar "+idDoctor);
 				$.ajax({
 	               /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
 	               type: 'POST',
@@ -170,24 +172,49 @@ $(document).ready(function() {
 	               url: 'php/borrar.php',
 	               //estos son los datos que queremos actualizar, en json:
 	               data: {
-	                   id_doctor: idDoctor
+	               		nombre: nomDoctor,
+	                    id_doctor: idDoctor
 	               },
 	               error: function(xhr, status, error) {
 	                   //mostraríamos alguna ventana de alerta con el error
-	                   alert("Ha entrado en error");
+	                   $.growl.error({
+                    	// colocando el mensaje top centre ...
+		                    location: "tc",
+		                    message: "Error al borrar el doctor." + error
+		                });
 	               },
 	               success: function(data) {
 	                   //obtenemos el mensaje del servidor, es un array!!!
 	                   //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
 	                   //actualizamos datatables:
 	                   /*para volver a pedir vía ajax los datos de la tabla*/
-	                   miTabla.fnDraw();
+	                   if (data[0].estado == 0) {
+		                    var $mitabla = $("#miTabla").dataTable({
+		                        bRetrieve: true
+		                    });
+		                    $mitabla.fnDraw();
+		                    $.growl({
+		                        title: "Exito!",
+		                        // colocando el mensaje top centre ...
+		                        location: "tc",
+		                        size: "large",
+		                        style: "notice",
+		                        message: "Doctor borrado correctamente!!"
+		                    });
+		                } else {
+		                    $.growl.error({
+		                        // colocando el mensaje top centre ...
+		                        location: "tc",
+		                        message: "Error al borrar el doctor." + data[0].mensaje
+		                    });
+		                }
+	                   
 	               },
 	               complete: {
 	                   //si queremos hacer algo al terminar la petición ajax
 	               }
 	           });
-				$(this).dialog("close");
+     			$(this).dialog("close");
 			},
 			"Cancelar": function () {
 				$(this).dialog("close");
@@ -196,8 +223,8 @@ $(document).ready(function() {
 		open: function(event, ui) { 
 			var nRow = $("#miTabla").parents('tr')[0];
         	var aData = listaTabla.row(nRow).data();
-        	var idDoctor = aData.id_doctor;
         	$('#dborrar').html(aData.nombre);
+        	$('#doctorB').html(aData.id_doctor);
 		} 
 	});
 	// pulsacion del boton nuevo doctor
@@ -213,7 +240,7 @@ $(document).ready(function() {
    		}
 	}).click(function(e){
 		e.preventDefault();
-   		alert("Me has pulsado bien!!");
+   		location.href='https://github.com/andrearaq/practica-ajax-datatables';
 	});
 	$("#beditar").button();
 	//pulsacion del boton editar doctor
@@ -233,8 +260,8 @@ $(document).ready(function() {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
         var aData = listaTabla.row(nRow).data();
-        var idDoctor = aData.id_doctor;
         $('#dborrar').html(aData.nombre);
+        $('#doctorB').html(aData.id_doctor);
 		$('#modalBorrar').dialog("option", "title", "Borrar Doctor");
 		$("#modalBorrar").dialog("open");
 	});

@@ -16,7 +16,8 @@ class DB {
     }
     //borrar un doctor
     public static function borrarDoctor($codigo) {
-        $sql = "DELETE FROM doctores WHERE id_doctor='".$codigo."';";
+       // $sql = "DELETE FROM doctores WHERE id_doctor=".$codigo.";";
+        $sql = "DELETE FROM doctores WHERE nombre='".$codigo."';";
         $resultado = self::ejecutaConsulta ($sql);
         
 	    return $resultado;
@@ -36,7 +37,7 @@ class DB {
     public static function nuevoDoctor($codigo, $nombre, $numcolegiado) {
         
         $sql = "INSERT INTO doctores (id_doctor, nombre, numcolegiado) VALUES";
-        $sql .= "(".$codigo.",".$nombre.",".$numcolegiado.");";
+        $sql .= "(".$codigo.",'".$nombre."',".$numcolegiado.");";
         
         $resultado = self::ejecutaConsulta ($sql);
     	return $resultado;
@@ -44,7 +45,8 @@ class DB {
     }
     // borrar las clinicas de un doctor
     public static function borrarClinicas($codigo) {
-        $sql = "DELETE FROM clinica_doctor WHERE id_doctor='".$codigo."';";
+        $sql = "DELETE FROM clinica_doctor WHERE id_doctor=".$codigo.";";
+
         $resultado = self::ejecutaConsulta ($sql);
         
         return $resultado;
