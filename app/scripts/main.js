@@ -61,9 +61,8 @@ $(document).ready(function() {
 			},
 			{ 'data': 'id_doctor',
 			 'render': function(data) {
-			 		return '<button id="beditar" class="btn boton boton_ed">Editar</button><button id="bborrar" class="btn boton boton_bo">Borrar</button>'
-                 //  return '<a class="btn boton boton_ed" id="beditar" href="#">Editar</a><a id="bborrar" class="btn boton boton_bo" href="#">Borrar</a>';
-               }
+			 	return '<button id="beditar" class="btn boton boton_ed">Editar</button><button id="bborrar" class="btn boton boton_bo">Borrar</button>';
+              }
 	 		}],
 	 	'columnDefs': [{       // impedir que se pueda ordenar por la columna Editar
             "targets": [3],
@@ -71,6 +70,7 @@ $(document).ready(function() {
             "orderable": false
         }]	 
 	});
+
 	//validacion del formulario de nuevo Doctor
 	var formularioN = $('#formularioN').validate({
 	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
@@ -96,6 +96,7 @@ $(document).ready(function() {
 	    submitHandler: function() {
 	    }
     });
+
 	//validacion del formulario de editar Doctor
 	var formularioE = $('#formularioE').validate({
 	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
@@ -119,9 +120,11 @@ $(document).ready(function() {
 	        clinicasE: "Selecciona al menos una clínica."
     	},  //fin messages
 	    submitHandler: function() {
+	    	$("#bGuardarE").attr("disabled", false);
 	    }
     });
 
+	// metodo para validar campos con lettersonly
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
 		return this.optional(element) || /^[a-z ñáéíóú]+$/i.test(value);
 	}, "El nombre solo puede contener letras.");
@@ -130,13 +133,14 @@ $(document).ready(function() {
 	$(".multiselect").multiselect({
 		header: "Elige una clínica"
 	});
-	/*
+	/* tampoco se ve haciendo por separado
 	$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
 	});
 	$("#clinicasN").multiselect({
 	   header: "Elige una clínica"
 	});*/
+
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
 		autoOpen: false,
@@ -146,15 +150,15 @@ $(document).ready(function() {
 		resizable: false,
 		position: { my: "center", at: "center", of: window },
 		show: {
-			effect: "blind",
+			effect: "blind",   // efecto al abrir la ventana dialog
 			duration: 400
 		},
 		hide: {
-			effect: "fade",
+			effect: "fade",     // efecto al cerrar la ventana dialog
 			duration: 800
 		},
 		buttons: {
-			"Guardar": function () {
+			"Guardar": function () {  
 			// aquí codigo para guardar los datos
 			$(this).dialog("close");
 			},
@@ -162,9 +166,8 @@ $(document).ready(function() {
 				$(this).dialog("close");
 			}
 		},
-		open: function(event, ui) { 
-	
-       // $('#idDoctorEditar').val(aData.idDoctor);
+		open: function(event, ui) {   
+		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	$('#clinicasN').load("php/cargar_clinicas.php");
@@ -189,20 +192,78 @@ $(document).ready(function() {
 			effect: "fade",
 			duration: 800
 		},
-		buttons: {
-			"Guardar": function () {
-			// aquí codigo para guardar los datos
-			$(this).dialog("close");
-			},
-			"Cancelar": function () {
+		buttons:[{
+		 	id: "bGuardarE",
+		 	text: "Guardar",
+		 	disabled: true,
+		 	click: function(){
+		 		// aquí codigo para guardar los datos
+				var idDoctor = $("#idDoctorE").val();
+            	var clinicas = $("#clinicasE").val();
+            	var nombre = $("#nombreE").val();
+            	var numcolegiado = $("#numcolegiadoE").val();
+
+	           $.ajax({
+	               type: 'POST',
+	               dataType: 'json',
+	               url: 'php/editar.php',
+	               //estos son los datos que queremos actualizar, en json:
+	               data: {
+	                   id_doctor: idDoctor,
+	                   nombre: nombre,
+	                   numcolegiado: numcolegiado,
+	                   clinicas: clinicas
+	               },
+	               error: function(xhr, status, error) {
+	                   //mostraríamos alguna ventana de alerta con el error
+	                   $.growl.error({
+                	// colocando el mensaje top centre ...
+	                    location: "tc",
+	                    message: "Error al modificar datos del doctor." + error
+	                });
+	               },
+	               success: function(data) {
+	               	if (data[0].estado == 0) {
+	                    var mitabla = $("#miTabla").dataTable({
+	                        bRetrieve: true
+	                    });
+	                    $.growl({
+	                        title: "Exito!",
+	                        // colocando el mensaje top centre ...
+	                        location: "tc",
+	                        size: "large",
+	                        style: "notice",
+	                        message: "Doctor modificado correctamente!!"
+	                    });
+	                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+	                    $mitabla.fnDraw();
+	                } else {
+	                    $.growl.error({
+	                        // colocando el mensaje top centre ...
+	                        location: "tc",
+	                        message: "Error al modificar datos del doctor." + data[0].mensaje
+	                    });
+	                } 
+	               },
+	               complete: {
+	                   //si queremos hacer algo al terminar la petición ajax
+	               }
+	           });
+			  $(this).dialog("close");
+			}
+		 }, 
+		 {
+		 	id: "bCancelarE",
+		 	text: "Cancelar",
+		 	click:  function () {
 				$(this).dialog("close");
 			}
-		},
+		 }],
+		//},
 		open: function(event, ui) { 
+			// al abrir la ventana dialog se llenan los campos del formulario
 			var nRow = $("#miTabla").parents('tr')[0];
         	var aData = listaTabla.row(nRow).data();
-	
-	       // $('#idDoctorEditar').val(aData.idDoctor);
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
 			$('#clinicasE').load("php/cargar_clinicas.php");
@@ -210,6 +271,7 @@ $(document).ready(function() {
 		close: function() {
 		}
 	});
+
     // ventana dialog para Borrar doctor
 	var ventanaBorrar = $("#modalBorrar").dialog({
 		autoOpen: false,
@@ -229,70 +291,76 @@ $(document).ready(function() {
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
-				/*var nRow = $("#miTabla").parents('tr')[0];
-        		var aData = listaTabla.row(nRow).data();*/
-        		var nomDoctor = $('#dborrar').html();
-        		var idDoctor = $('#doctorB').html();
-        		console.log("doctor a borrar "+idDoctor);
-				$.ajax({
-					url: 'php/borrar.php',
-	               	type: 'POST',
-	               	dataType: 'json',
-	               //estos son los datos que queremos actualizar, en json:
-	               data: {
-	                    id_doctor: idDoctor
-	               },
-	               error: function(xhr, status, error) {
-	                   //mostraríamos alguna ventana de alerta con el error
-	                   $.growl.error({
-                    	// colocando el mensaje top centre ...
-		                    location: "tc",
-		                    message: "Error al borrar el doctor." + error
-		                });
-	               },
-	               success: function(data) {
-	                   //obtenemos el mensaje del servidor, es un array!!!
-	                   //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
-	                   //actualizamos datatables:
-	                   /*para volver a pedir vía ajax los datos de la tabla*/
-	                   if (data[0].estado == 0) {
-		                    var $mitabla = $("#miTabla").dataTable({
-		                        bRetrieve: true
-		                    });
-		                    $mitabla.fnDraw();
-		                    $.growl({
-		                        title: "Exito!",
-		                        // colocando el mensaje top centre ...
-		                        location: "tc",
-		                        size: "large",
-		                        style: "notice",
-		                        message: "Doctor borrado correctamente!!"
-		                    });
-		                } else {
-		                    $.growl.error({
-		                        // colocando el mensaje top centre ...
-		                        location: "tc",
-		                        message: "Error al borrar el doctor." + data[0].mensaje
-		                    });
-		                }
-	               },
-	               complete: {
-	                   //si queremos hacer algo al terminar la petición ajax
-	               }
-	           });
-     			$(this).dialog("close");
+			var nRow = $("#miTabla").parents('tr')[0];
+        	var aData = listaTabla.row(nRow).data();
+        	
+    		var nomDoctor = $('#dborrar').html();
+    		//var idDoctor = aData.id_doctor;
+    		var idDoctor = $('#doctorB').html();  // este elemento está oculto en la ventana
+    		console.log("doctor a borrar "+idDoctor);
+    		// se llama via ajax al fichero borrar.php para borrar el doctor
+			$.ajax({
+				url: 'php/borrar.php',
+               	type: 'POST',
+               	dataType: 'json',
+               //estos son los datos que queremos actualizar, en json:
+               data: {
+                    id_doctor: idDoctor
+               },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+                   $.growl.error({
+                	// colocando el mensaje top centre ...
+	                    location: "tc",
+	                    message: "Error al borrar el doctor." + error
+	                });
+               },
+               success: function(data) {
+                   //obtenemos el mensaje del servidor, es un array!!!
+                   //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
+                   //actualizamos datatables:
+                   /*para volver a pedir vía ajax los datos de la tabla*/
+                   if (data[0].estado == 0) {
+	                    var mitabla = $("#miTabla").dataTable({
+	                        bRetrieve: true
+	                    });
+	                    $.growl({
+	                        title: "Exito!",
+	                        // colocando el mensaje top centre ...
+	                        location: "tc",
+	                        size: "large",
+	                        style: "notice",
+	                        message: "Doctor borrado correctamente!!"
+	                    });
+	                  //  mitabla.fnDraw();
+	                    listaTabla.fnDraw();
+	                } else {
+	                    $.growl.error({
+	                        // colocando el mensaje top centre ...
+	                        location: "tc",
+	                        message: "Error al borrar el doctor." + data[0].mensaje
+	                    });
+	                }
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+ 			$(this).dialog("close");
 			},
 			"Cancelar": function () {
 				$(this).dialog("close");
 			}
 		},
 		open: function(event, ui) { 
+			// al abrir la ventana se muestra el nombre del doctor a borrar
 			var nRow = $("#miTabla").parents('tr')[0];
         	var aData = listaTabla.row(nRow).data();
         	$('#dborrar').html(aData.nombre);
         	$('#doctorB').html(aData.id_doctor);
 		} 
 	});
+
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
@@ -302,6 +370,7 @@ $(document).ready(function() {
 		$('#formuNuevo').dialog("option", "title", "Añadir Doctor");
 		$('#formuNuevo').dialog("open");
 	});
+
 	//pulsacion boton Repositorio Github
 	$('#brepositorio').button({
 		icons: {
@@ -311,7 +380,8 @@ $(document).ready(function() {
 		e.preventDefault();
    		location.href='https://github.com/andrearaq/practica-ajax-datatables';
 	});
-	// boton Editar Doctor
+
+	// aplica formato boton al button Editar Doctor
 	$("#beditar").button();
 	//pulsacion del boton editar doctor
 	$('#miTabla').on('click', '#beditar', function (e) {
@@ -326,22 +396,22 @@ $(document).ready(function() {
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
 		$("#formuEditar").dialog("open");
 	});
+
 	// pulsacion de un nombre de Doctor
 	$('#miTabla').on('click', '.nomdoctor', function (e) {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
         var aData = listaTabla.row(nRow).data();
 	
-       // $('#idDoctorEditar').val(aData.idDoctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
-
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
 		$("#formuEditar").dialog("open");
 	});
 
-	// botón de borrar Doctor
+	// aplicar formato de botón al button Borrar Doctor
 	$("#bborrar").button();
+	// pulsacion del botón Borrar doctor
 	$('#miTabla').on('click', '#bborrar', function (e) {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
@@ -353,6 +423,7 @@ $(document).ready(function() {
 	});
 
 	// cargar las clinicas en el select clinicas del formulario
+	// otra forma de cargar las clinicas
 /*	function cargarClinicas() {
            $.ajax({
                type: 'POST',
