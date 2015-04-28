@@ -130,9 +130,9 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-	$(".multiselect").multiselect({
+	/*$(".multiselect").multiselect({
 		header: "Elige una clínica"
-	});
+	});*/
 	/* tampoco se ve haciendo por separado
 	$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
@@ -160,7 +160,54 @@ $(document).ready(function() {
 		buttons: {
 			"Guardar": function () {  
 			// aquí codigo para guardar los datos
-			$(this).dialog("close");
+			
+            	var clinicas = $("#clinicasN").val();
+            	var nombre = $("#nombreN").val();
+            	var numcolegiado = $("#numcolegiadoN").val();
+          
+	           $.ajax({
+	               type: 'POST',
+	               dataType: 'json',
+	               url: 'php/nuevo_doctor.php',
+	               //estos son los datos que queremos agregar, en json:
+	               data: {
+	                   nombre: nombre,
+	                   numcolegiado: numcolegiado,
+	                   clinicas: clinicas
+	               },
+	               error: function(xhr, status, error) {
+	                   //mostraríamos alguna ventana de alerta con el error
+	                   $.growl.error({
+                	// colocando el mensaje top centre ...
+	                    location: "tc",
+	                    message: "Error al añadir los datos del doctor." + error
+	                });
+	               },
+	               success: function(data) {
+	               	if (data[0].estado == 0) {
+	                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+	                    $mitabla.fnDraw();
+	                    $.growl({
+	                        title: "Exito!",
+	                        // colocando el mensaje top centre ...
+	                        location: "tc",
+	                        size: "large",
+	                        style: "notice",
+	                        message: "Doctor añadido correctamente!!"
+	                    });
+	                } else {
+	                    $.growl.error({
+	                        // colocando el mensaje top centre ...
+	                        location: "tc",
+	                        message: "Error al añadir los datos del doctor." + data[0].mensaje
+	                    });
+	                } 
+	               },
+	               complete: {
+	                   //si queremos hacer algo al terminar la petición ajax
+	               }
+	           });
+				$(this).dialog("close");
 			},
 			"Cancelar": function () {
 				$(this).dialog("close");
@@ -195,7 +242,7 @@ $(document).ready(function() {
 		buttons:[{
 		 	id: "bGuardarE",
 		 	text: "Guardar",
-		 	disabled: true,
+		 	//disabled: true,
 		 	click: function(){
 		 		// aquí codigo para guardar los datos
 				var idDoctor = $("#idDoctorE").val();
@@ -291,8 +338,8 @@ $(document).ready(function() {
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
-			var nRow = $("#miTabla").parents('tr')[0];
-        	var aData = listaTabla.row(nRow).data();
+			//var nRow = $("#miTabla").parents('tr')[0];
+        	//var aData = listaTabla.row(nRow).data();
         	
     		var nomDoctor = $('#dborrar').html();
     		//var idDoctor = aData.id_doctor;

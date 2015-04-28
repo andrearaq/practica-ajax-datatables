@@ -1,5 +1,11 @@
 <?php  
-// Cargar clinicas
+/** 
+ * Fichero para cargar las clinicas existentes
+ * @author Andrea Gutierrez
+ * @version 1.0
+ * @return array con los datos de las clinicas
+ * include clase DB
+ */
     //header("Access-Control-Allow-Origin: *");  // permite usar CORS
     include('DB.php');
     $resultado = DB::cargarClinicas();
