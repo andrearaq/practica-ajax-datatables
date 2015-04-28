@@ -134,7 +134,12 @@ a {
 .texto {
   font-size: 11px;
 }
-/*
+
 #doctorB, #id_doctorE{
   display: none;
-}*/
+}
+
+#clinicasN, #clinicasE {
+  width: 400px;
+  height: 200px;
+}

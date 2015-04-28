@@ -130,16 +130,12 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-	/*$(".multiselect").multiselect({
-		header: "Elige una clínica"
-	});*/
-	/* tampoco se ve haciendo por separado
 	$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
 	});
 	$("#clinicasN").multiselect({
 	   header: "Elige una clínica"
-	});*/
+	});
 
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
@@ -217,7 +213,8 @@ $(document).ready(function() {
 		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
-        	$('#clinicasN').load("php/cargar_clinicas.php");
+        	//$('#clinicasN').multiselect('deselect_all');
+        	//$('#clinicasN').load("php/cargar_clinicas.php");
 		},
 		close: function() {
 		}
@@ -271,9 +268,8 @@ $(document).ready(function() {
 	               },
 	               success: function(data) {
 	               	if (data[0].estado == 0) {
-	                    var mitabla = $("#miTabla").dataTable({
-	                        bRetrieve: true
-	                    });
+	                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+	                    $mitabla.fnDraw();
 	                    $.growl({
 	                        title: "Exito!",
 	                        // colocando el mensaje top centre ...
@@ -313,7 +309,7 @@ $(document).ready(function() {
         	var aData = listaTabla.row(nRow).data();
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
-			$('#clinicasE').load("php/cargar_clinicas.php");
+		//	$('#clinicasE').load("php/cargar_clinicas.php");
 		},
 		close: function() {
 		}
@@ -368,9 +364,8 @@ $(document).ready(function() {
                    //actualizamos datatables:
                    /*para volver a pedir vía ajax los datos de la tabla*/
                    if (data[0].estado == 0) {
-	                    var mitabla = $("#miTabla").dataTable({
-	                        bRetrieve: true
-	                    });
+	                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+	                    $mitabla.fnDraw();
 	                    $.growl({
 	                        title: "Exito!",
 	                        // colocando el mensaje top centre ...
@@ -379,8 +374,7 @@ $(document).ready(function() {
 	                        style: "notice",
 	                        message: "Doctor borrado correctamente!!"
 	                    });
-	                  //  mitabla.fnDraw();
-	                    listaTabla.fnDraw();
+	                  
 	                } else {
 	                    $.growl.error({
 	                        // colocando el mensaje top centre ...
@@ -412,8 +406,8 @@ $(document).ready(function() {
 	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
 		$('#nombreN').val('');
-        $('#numcolegiadoN').val('');
-        $('#clinicasN').load("php/cargar_clinicas.php");
+		//$('#clinicasN').multiselect('deselect_all');
+      //  $('#clinicasN').load("php/cargar_clinicas.php");
 		$('#formuNuevo').dialog("option", "title", "Añadir Doctor");
 		$('#formuNuevo').dialog("open");
 	});
@@ -439,7 +433,7 @@ $(document).ready(function() {
        // $('#idDoctorEditar').val(aData.idDoctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
-        $('#clinicasE').load("php/cargar_clinicas.php");
+      //  $('#clinicasE').load("php/cargar_clinicas.php");
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
 		$("#formuEditar").dialog("open");
 	});
