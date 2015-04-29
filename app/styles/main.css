@@ -136,7 +136,7 @@ a {
 }
 
 #doctorB, #id_doctorE{
- /* display: none;*/
+  display: none;
 }
 
 #clinicasN, #clinicasE {

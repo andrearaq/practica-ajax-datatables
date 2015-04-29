@@ -9,28 +9,32 @@
     //header("Access-Control-Allow-Origin: *");  // permite usar CORS
     include('DB.php');
     $resultado = DB::cargarClinicas();
-    $datos="";
+    // si han recibido todas las clinicas correctamente seguimos
     if (isset($resultado)){
-            while ($row = $resultado->fetch()) {
-               // $clinicas[] = $row;
-            	$id_clinica = $row['id_clinica'];
-            	$nombre = $row['nombre'];
-            	$datos .="<option value='".$id_clinica."'>".$nombre."</option>";
-            }
-    }
-
+      // ponemos las clinicas en un array
+      $clinicasTotal = array();
+      while ($row = $resultado->fetch()) {
+            $id = $row['id_clinica'];
+            $clinicasTotal[$id] = $row['nombre'];
+      }
+        $datos="";
+       // comprobamos si llegan clinicas previamente seleccionadas
+      if (isset($_REQUEST['clinicas'])){
+        $clinicas=$_REQUEST['clinicas'];
+          foreach($clinicasTotal as $id_clinica=>$nombre){
+               if(in_array($nombre,$clinicas)){
+                $datos .="<option selected value='".$id_clinica."'>".$nombre."</option>";
+               }
+               else {
+                $datos .="<option value='".$id_clinica."'>".$nombre."</option>";
+               }
+           }
+      } else {
+        foreach($clinicasTotal as $id_clinica=>$nombre){
+            $datos .="<option value='".$id_clinica."'>".$nombre."</option>";
+        }
+      }
+   }
    echo $datos;
   
-  /*  $datos = array();
-    if (isset($resultado)){
-            while ($row = $resultado->fetch()) {
-               // $clinicas[] = $row;
-                $datos[] = array(
-                'id_clinica' = $row['id_clinica'],
-                'nombre' = $row['nombre']
-                );
-            }
-    }
-
-   echo json_encode($datos);*/
 ?>

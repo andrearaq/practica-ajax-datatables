@@ -130,7 +130,7 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-/*	$("#clinicasE").multiselect({
+	/*$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
 	});
 	$("#clinicasN").multiselect({
@@ -214,6 +214,7 @@ $(document).ready(function() {
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');
+        	$('#clinicasN option').removeAttr("selected");
         	$('#clinicasN').load("php/cargar_clinicas.php");
 		},
 		close: function() {
@@ -307,31 +308,15 @@ $(document).ready(function() {
 			// al abrir la ventana dialog se llenan los campos del formulario
 			var nRow = $("#miTabla").parents('tr')[0];
         	var aData = listaTabla.row(nRow).data();
+        	var clinicasOn = aData.clinica;
+            var clinicasActivas = clinicasOn.split(',');
+			$('#clinicasE').load("php/cargar_clinicas.php", {
+				'clinicas': clinicasActivas
+			});
         	$('#id_doctorE').html(aData.id_doctor);
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
-			//$('#clinicasE').load("php/cargar_clinicas.php");
-			var clinicasdoctor = aData.clinicas;
-            var clinicasActivas = clinicasdoctor.split(',');
-            $.each(clinicasdoctor, function(index, value){
-            	$("#clinicasE option").each(function(){
-            		var texto = $(this).value();
-            		if (value==texto){
-            			$(this).prop('selected', true);
-            		}
-            	});
-            });
-       /*    $('#formuEditar').find('option').each(function() { 
-	            var actual = $(this);
-	            // recorro las clinicas del doctor
-	            clinicasActivas.foreach(function(element) {
-	                // si coincide la de la select con la del doctor
-	                if (actual.value() == element) {
-	                    // la pongo como selecionada
-	                    actual.prop('selected', true);
-	                }
-            });
-        });*/
+	        
 		},
 		close: function() {
 		}
@@ -428,7 +413,8 @@ $(document).ready(function() {
 	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
 		//$('#clinicasN').multiselect('deselect_all');
-      //  $('#clinicasN').load("php/cargar_clinicas.php");
+      	$('#clinicasN option').removeAttr("selected");
+        $('#clinicasN').load("php/cargar_clinicas.php");
 		$('#formuNuevo').dialog("option", "title", "Añadir Doctor");
 		$('#formuNuevo').dialog("open");
 	});
@@ -450,10 +436,15 @@ $(document).ready(function() {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
         var aData = listaTabla.row(nRow).data();
+        var clinicasOn = aData.clinica;
+        var clinicasActivas = clinicasOn.split(',');
+		$('#clinicasE').load("php/cargar_clinicas.php", {
+			'clinicas': clinicasActivas
+		});
 		$('#id_doctorE').html(aData.id_doctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
-        $('#clinicasE').load("php/cargar_clinicas.php");
+     
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
 		$("#formuEditar").dialog("open");
 	});
@@ -463,7 +454,11 @@ $(document).ready(function() {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
         var aData = listaTabla.row(nRow).data();
-	
+		var clinicasOn = aData.clinica;
+        var clinicasActivas = clinicasOn.split(',');
+		$('#clinicasE').load("php/cargar_clinicas.php", {
+			'clinicas': clinicasActivas
+		});
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
@@ -483,30 +478,4 @@ $(document).ready(function() {
 		$("#modalBorrar").dialog("open");
 	});
 
-	// cargar las clinicas en el select clinicas del formulario
-	// otra forma de cargar las clinicas
-/*	function cargarClinicas() {
-           $.ajax({
-               type: 'POST',
-               dataType: 'html',
-               url: 'php/cargar_clinicas.php',
-               async: false,
-               //estos son los datos que queremos actualizar, en json:
-               // {parametro1: valor1, parametro2, valor2, ….}
-               //data: { id_clinica: id_clinica, nombre: nombre, ….,  id_tarifa: id_tarifa },
-               error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
-               },
-               success: function(data) {
-                   $('.multiselect').empty();
-                   $.each(data, function() {
-                       $('.multiselect').append(data);
-                   });
-               },
-               complete: {
-                   //si queremos hacer algo al terminar la petición ajax
-               }
-           });
-       }
-    cargarClinicas();*/
 });
