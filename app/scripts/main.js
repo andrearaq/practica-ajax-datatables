@@ -130,12 +130,12 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-	$("#clinicasE").multiselect({
+/*	$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
 	});
 	$("#clinicasN").multiselect({
 	   header: "Elige una clínica"
-	});
+	});*/
 
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
@@ -214,7 +214,7 @@ $(document).ready(function() {
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');
-        	//$('#clinicasN').load("php/cargar_clinicas.php");
+        	$('#clinicasN').load("php/cargar_clinicas.php");
 		},
 		close: function() {
 		}
@@ -242,7 +242,7 @@ $(document).ready(function() {
 		 	//disabled: true,
 		 	click: function(){
 		 		// aquí codigo para guardar los datos
-				var idDoctor = $("#idDoctorE").val();
+				var idDoctor = $("#idDoctorE").html();
             	var clinicas = $("#clinicasE").val();
             	var nombre = $("#nombreE").val();
             	var numcolegiado = $("#numcolegiadoE").val();
@@ -307,9 +307,31 @@ $(document).ready(function() {
 			// al abrir la ventana dialog se llenan los campos del formulario
 			var nRow = $("#miTabla").parents('tr')[0];
         	var aData = listaTabla.row(nRow).data();
+        	$('#id_doctorE').html(aData.id_doctor);
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
-		//	$('#clinicasE').load("php/cargar_clinicas.php");
+			//$('#clinicasE').load("php/cargar_clinicas.php");
+			var clinicasdoctor = aData.clinicas;
+            var clinicasActivas = clinicasdoctor.split(',');
+            $.each(clinicasActivas, function(index, value){
+            	$("#clinicasE option").each(function(){
+            		var texto = $(this).text();
+            		if (value==texto){
+            			$(this).prop('selected', true);
+            		}
+            	});
+            });
+       /*    $('#formuEditar').find('option').each(function() { 
+	            var actual = $(this);
+	            // recorro las clinicas del doctor
+	            clinicasActivas.foreach(function(element) {
+	                // si coincide la de la select con la del doctor
+	                if (actual.value() == element) {
+	                    // la pongo como selecionada
+	                    actual.prop('selected', true);
+	                }
+            });
+        });*/
 		},
 		close: function() {
 		}
@@ -405,7 +427,6 @@ $(document).ready(function() {
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
-		$('#nombreN').val('');
 		//$('#clinicasN').multiselect('deselect_all');
       //  $('#clinicasN').load("php/cargar_clinicas.php");
 		$('#formuNuevo').dialog("option", "title", "Añadir Doctor");
@@ -433,7 +454,7 @@ $(document).ready(function() {
        // $('#idDoctorEditar').val(aData.idDoctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
-      //  $('#clinicasE').load("php/cargar_clinicas.php");
+        $('#clinicasE').load("php/cargar_clinicas.php");
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
 		$("#formuEditar").dialog("open");
 	});

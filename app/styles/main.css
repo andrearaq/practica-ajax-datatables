@@ -136,10 +136,10 @@ a {
 }
 
 #doctorB, #id_doctorE{
-  display: none;
+ /* display: none;*/
 }
 
 #clinicasN, #clinicasE {
   width: 400px;
-  height: 200px;
+  height: 160px;
 }

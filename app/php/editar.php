@@ -13,7 +13,7 @@
     $numcoleg = $_POST["numcolegiado"];
     $clinicas = $_POST["clinicas"];
 
-    $respuesta=DB::editarDoctor($id_doctor,$nombre,$numcolegiado);
+    $respuesta=DB::editarDoctor($id_doctor,$nombre,$numcoleg);
     if(!$respuesta){
         $mensaje="Imposible modificar datos doctor.";
         $estado=1;
@@ -30,7 +30,7 @@
         else {
                 // ahora se insertan las clinicas del doctor
                 foreach ($clinicas as $key => $clinica) {
-                        $respuesta=DB::nuevaClinica($id_doctor, $numcolegiado, $clinica);
+                        $respuesta=DB::nuevaClinica($id_doctor, $numcoleg, $clinica);
             if (!$respuesta) {
                 $mensaje = "Error al agregar clinica.";
                 $estado  = 1;

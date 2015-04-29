@@ -15,7 +15,7 @@
 
     $estado = 0;
     $id_doctor = DB::ultimoDoctor()+1;
-    $respuesta=DB::nuevoDoctor($id_doctor,$nombre,$numcolegiado);
+    $respuesta=DB::nuevoDoctor($id_doctor,$nombre,$numcoleg);
     if(!$respuesta){
         $mensaje="Imposible agregar doctor.";
         $estado=1;
@@ -23,7 +23,7 @@
     else {
         // agregar las clinicas del nuevo doctor
         foreach ($clinicas as $key => $clinica) {
-                $respuesta=DB::nuevaClinica($id_doctor, $numcolegiado, $clinica);
+                $respuesta=DB::nuevaClinica($id_doctor, $numcoleg, $clinica);
             if (!$respuesta) {
                 $mensaje = "Error al agregar clinica.";
                 $estado  = 1;
