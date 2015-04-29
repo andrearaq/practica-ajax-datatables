@@ -51,10 +51,8 @@ class DB {
      */
     public static function editarDoctor($codigo, $nombre, $numcolegiado) { 
         
-        $sql = "UPDATE doctores SET
-                nombre = '".$nombre ."',
-                numcolegiado = '".$numcolegiado."'
-                WHERE id_doctor= ". $codigo.";";
+        $sql = "UPDATE doctores SET nombre= '".$nombre."', numcolegiado='".$numcolegiado."' WHERE id_doctor=".$codigo.";";
+
         $resultado = self::ejecutaConsulta ($sql);
 
     	return $resultado;           

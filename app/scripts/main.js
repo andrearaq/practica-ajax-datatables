@@ -242,7 +242,7 @@ $(document).ready(function() {
 		 	//disabled: true,
 		 	click: function(){
 		 		// aquí codigo para guardar los datos
-				var idDoctor = $("#idDoctorE").html();
+				var idDoctor = $("#id_DoctorE").html();
             	var clinicas = $("#clinicasE").val();
             	var nombre = $("#nombreE").val();
             	var numcolegiado = $("#numcolegiadoE").val();
@@ -313,9 +313,9 @@ $(document).ready(function() {
 			//$('#clinicasE').load("php/cargar_clinicas.php");
 			var clinicasdoctor = aData.clinicas;
             var clinicasActivas = clinicasdoctor.split(',');
-            $.each(clinicasActivas, function(index, value){
+            $.each(clinicasdoctor, function(index, value){
             	$("#clinicasE option").each(function(){
-            		var texto = $(this).text();
+            		var texto = $(this).value();
             		if (value==texto){
             			$(this).prop('selected', true);
             		}
@@ -450,8 +450,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		var nRow = $(this).parents('tr')[0];
         var aData = listaTabla.row(nRow).data();
-	
-       // $('#idDoctorEditar').val(aData.idDoctor);
+		$('#id_doctorE').html(aData.id_doctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
         $('#clinicasE').load("php/cargar_clinicas.php");

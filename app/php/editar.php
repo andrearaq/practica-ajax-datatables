@@ -30,7 +30,7 @@
         else {
                 // ahora se insertan las clinicas del doctor
                 foreach ($clinicas as $key => $clinica) {
-                        $respuesta=DB::nuevaClinica($id_doctor, $numcoleg, $clinica);
+                        $respuesta=DB::nuevaClinica($id_doctor, (int)$numcoleg, $clinica);
             if (!$respuesta) {
                 $mensaje = "Error al agregar clinica.";
                 $estado  = 1;
