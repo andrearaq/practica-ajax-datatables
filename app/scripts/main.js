@@ -73,7 +73,7 @@ $(document).ready(function() {
 
 	//validacion del formulario de nuevo Doctor
 	var formularioN = $('#formularioN').validate({
-	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+	  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
 	    rules: {
 	        nombreN: {
 	            required: true,
@@ -91,10 +91,64 @@ $(document).ready(function() {
 	        numcolegiadoN: {
 	            digits: "El numero de colegiado debe tener digitos."
 	        },
-	        clinicasN: "Selecciona al menos una clínica."
+	        clinicasN: {
+	        	required: "Selecciona al menos una clínica."
+	        } 
     	},  //fin messages
 	    submitHandler: function() {
+	    	// aquí codigo para guardar los datos
+			alert("entrado en submithandler del formulario");
+        	var clinicas = $("#clinicasN").val();
+        	var nombre = $("#nombreN").val();
+        	var numcolegiado = $("#numcolegiadoN").val();
+      
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/nuevo_doctor.php',
+               //estos son los datos que queremos agregar, en json:
+               data: {
+                   nombre: nombre,
+                   numcolegiado: numcolegiado,
+                   clinicas: clinicas
+               },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+                   $.growl.error({
+            	// colocando el mensaje top centre ...
+                    location: "tc",
+                    message: "Error al añadir los datos del doctor." + error
+                });
+               },
+               success: function(data) {
+               	if (data[0].estado == 0) {
+                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+                    $mitabla.fnDraw();
+                    $.growl({
+                        title: "Exito!",
+                        // colocando el mensaje top centre ...
+                        location: "tc",
+                        size: "large",
+                        style: "notice",
+                        message: "Doctor añadido correctamente!!"
+                    });
+                } else {
+                    $.growl.error({
+                        // colocando el mensaje top centre ...
+                        location: "tc",
+                        message: "Error al añadir los datos del doctor." + data[0].mensaje
+                    });
+                } 
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+	    },
+	    errorPlacement: function(error, element){
+	    	error.appendTo.next("span").append();
 	    }
+
     });
 
 	//validacion del formulario de editar Doctor
@@ -130,19 +184,19 @@ $(document).ready(function() {
 	}, "El nombre solo puede contener letras.");
 
 	// multiselect de jquery-ui para seleccionar varias clinicas
-	$("#clinicasE").multiselect({
+/*	$("#clinicasE").multiselect({
 	   header: "Elige una clínica"
 	});
 	$("#clinicasN").multiselect({
 	   header: "Elige una clínica"
-	});
-
+	});*/
+$("nuevoG").button();
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
 		autoOpen: false,
 		modal: true,
 		width: 700,
-		height: 400,
+		height: 500,
 		resizable: false,
 		position: { my: "center", at: "center", of: window },
 		show: {
@@ -153,7 +207,8 @@ $(document).ready(function() {
 			effect: "fade",     // efecto al cerrar la ventana dialog
 			duration: 800
 		},
-		buttons: {
+		
+	/*	buttons: {
 			"Guardar": function () {  
 			// aquí codigo para guardar los datos
 			
@@ -207,10 +262,32 @@ $(document).ready(function() {
 			},
 			"Cancelar": function () {
 				$(this).dialog("close");
+				aform.resetForm();
 			}
-		},
+		},*/
+		buttons:[
+		/*{
+		 //	id: "bGuardarN",
+		 	text: "Guardar",
+		 	//disabled: true,
+		 	//click: $.noop,
+            type: "submit",
+            form: "formularioN",
+            click: function(){
+		 		$("#formularioN").submit();
+		 	}
+		 }, */
+		 {
+		 	id: "bCancelarN",
+		 	text: "Cancelar",
+		 	click:  function () {
+				$(this).dialog("close");
+				aform.resetForm();
+			}
+		 }],
 		open: function(event, ui) {   
 		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
+		//	$(this).find("[type=submit]").hide();
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');

@@ -56,21 +56,23 @@
     </div>
   <!-- formulario para agregar doctor -->
      <div id="formuNuevo" role="dialog">
-        <form id="formularioN" novalidate>
+        <form id="formularioN" novalidate method="POST">
        <!--   <div id="datos">-->
             <div class="grupo-campos">
                 <label for="nombreN">Nombre y Apellidos:<span class='important'>*</span>
-                </label>                
-                <p><input type="text" name="nombreN" id="nombreN" placeholder="Introduce nombre y apellido" class="text ui-widget-content ui-corner-all"></p>
+                </label>  
+                <input type="text" name="nombreN" id="nombreN" placeholder="Introduce nombre y apellido" class="text ui-widget-content ui-corner-all">
+                <p><span></span> </p> 
             </div>
             <div class="grupo-campos">
                 <label for="numcolegiadoN">Nº Colegiado:</label>
-                <p><input type="text" name="numcolegiadoN" id="numcolegiadoN" placeholder="Introduce nº de colegiado" class="text ui-widget-content ui-corner-all"></p>
+                <input type="text" name="numcolegiadoN" id="numcolegiadoN" placeholder="Introduce nº de colegiado" class="text ui-widget-content ui-corner-all">
+                 <p><span></span></p>
             </div>
             <div class="grupo-campos">
                 <label for="clinicasN">Clínicas:<span class='important'>*</span>
                 </label>
-                <p><select size="8" name="clinicasN[]" class="multiselect" multiple="multiple" id="clinicasN">
+                <select size="8" name="clinicasN[]" class="multiselect" multiple="multiple" id="clinicasN">
              <!--     <option value="1">CENTRO IMPLANTOLOGICO BARCELONA</option>
                   <option value="2">CENTRO DE IMPLANTOLOGÍA MADRID</option>
                   <option value="3">CENTRO DE IMPLANTOLOGÍA VIGO</option>
@@ -78,11 +80,13 @@
                   <option value="6">CENTRO DE IMPLANTOLOGÍA VALENCIA</option>
                   <option value="6">CENTRO DE IMPLANTOLOGÍA SANTANDER</option>
                   <option value="15">CENTRO DE IMPLANTOLOGÍA TARRAGONA</option>-->
-                </select></p>
+                </select>
+                <p><span></span></p>
             </div>
             <div class="grupo-campos">
               <p class="texto"><span class='important'>*</span>Campo requerido</p>
             </div>
+            <input type="submit" id="nuevoG" name="nuevoG" value="Guardar">
        <!--   </div>-->
         </form>
       </div>
