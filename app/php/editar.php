@@ -8,11 +8,17 @@
  * @return array json
  */
     include("DB.php" );
-    $id_doctor = $_POST["id_doctor"];
+    if (isset($_REQUEST['id_doctor'])) {
+    // param was set in the query string
+        if (empty($_REQUEST['id_doctor'])) {
+            return "El parámetro id_doctor está vacío!";
+        }
+        $id_doctor = $_REQUEST['id_doctor'];
+    }
     $nombre = strtoupper($_POST["nombre"]);
     $numcoleg = $_POST["numcolegiado"];
     $clinicas = $_POST["clinicas"];
-
+    
     $respuesta=DB::editarDoctor($id_doctor,$nombre,$numcoleg);
     if(!$respuesta){
         $mensaje="Imposible modificar datos doctor.";

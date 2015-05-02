@@ -92,10 +92,11 @@ $(document).ready(function() {
 	            digits: "El numero de colegiado debe tener digitos."
 	        },
 	        clinicasN: {
-	        	required: "Selecciona al menos una clínica."
+	        	required: "Selecciona al menos una clínica.",
+	        	minlenght: "Selecciona al menos una clínica."
 	        } 
     	},  //fin messages
-	    submitHandler: function() {
+	    submitHandler: function(form) {
 	    	// aquí codigo para guardar los datos
 			alert("entrado en submithandler del formulario");
         	var clinicas = $("#clinicasN").val();
@@ -144,11 +145,8 @@ $(document).ready(function() {
                    //si queremos hacer algo al terminar la petición ajax
                }
            });
-	    },
-	    errorPlacement: function(error, element){
-	    	error.appendTo.next("span").append();
 	    }
-
+	    
     });
 
 	//validacion del formulario de editar Doctor
@@ -173,7 +171,7 @@ $(document).ready(function() {
 	        },
 	        clinicasE: "Selecciona al menos una clínica."
     	},  //fin messages
-	    submitHandler: function() {
+	    submitHandler: function(form) {
 	    	$("#bGuardarE").attr("disabled", false);
 	    }
     });
@@ -190,7 +188,7 @@ $(document).ready(function() {
 	$("#clinicasN").multiselect({
 	   header: "Elige una clínica"
 	});*/
-$("nuevoG").button();
+
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
 		autoOpen: false,
@@ -266,8 +264,8 @@ $("nuevoG").button();
 			}
 		},*/
 		buttons:[
-		/*{
-		 //	id: "bGuardarN",
+		{
+		 	id: "bGuardarN",
 		 	text: "Guardar",
 		 	//disabled: true,
 		 	//click: $.noop,
@@ -276,7 +274,7 @@ $("nuevoG").button();
             click: function(){
 		 		$("#formularioN").submit();
 		 	}
-		 }, */
+		 }, 
 		 {
 		 	id: "bCancelarN",
 		 	text: "Cancelar",
@@ -287,7 +285,7 @@ $("nuevoG").button();
 		 }],
 		open: function(event, ui) {   
 		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
-		//	$(this).find("[type=submit]").hide();
+			$(this).find("[type=submit]").hide();
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');

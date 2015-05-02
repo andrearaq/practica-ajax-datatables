@@ -38,6 +38,7 @@
       </div>
        <br/>
         <table id="miTabla" class="display" width="100%" cellspacing="0">
+       
           <thead>
             <th>Doctor</th>
             <th>Nº Colegiado</th>
@@ -54,20 +55,20 @@
           </tfoot>
         </table>
     </div>
-  <!-- formulario para agregar doctor -->
+    <!-- formulario para agregar doctor -->
      <div id="formuNuevo" role="dialog">
-        <form id="formularioN" novalidate method="POST">
+        <form id="formularioN" novalidate>
        <!--   <div id="datos">-->
             <div class="grupo-campos">
                 <label for="nombreN">Nombre y Apellidos:<span class='important'>*</span>
                 </label>  
                 <input type="text" name="nombreN" id="nombreN" placeholder="Introduce nombre y apellido" class="text ui-widget-content ui-corner-all">
-                <p><span></span> </p> 
+                <p><span class="error_label"></span> </p> 
             </div>
             <div class="grupo-campos">
                 <label for="numcolegiadoN">Nº Colegiado:</label>
                 <input type="text" name="numcolegiadoN" id="numcolegiadoN" placeholder="Introduce nº de colegiado" class="text ui-widget-content ui-corner-all">
-                 <p><span></span></p>
+                 <p><span class="error_label"></span></p>
             </div>
             <div class="grupo-campos">
                 <label for="clinicasN">Clínicas:<span class='important'>*</span>
@@ -81,16 +82,16 @@
                   <option value="6">CENTRO DE IMPLANTOLOGÍA SANTANDER</option>
                   <option value="15">CENTRO DE IMPLANTOLOGÍA TARRAGONA</option>-->
                 </select>
-                <p><span></span></p>
+                <p><span class="error_label"></span></p>
             </div>
-            <div class="grupo-campos">
+             <div class="grupo-campos">
               <p class="texto"><span class='important'>*</span>Campo requerido</p>
             </div>
             <input type="submit" id="nuevoG" name="nuevoG" value="Guardar">
        <!--   </div>-->
         </form>
       </div>
-       <!-- formulario para modificar datos doctor -->
+      <!-- formulario para modificar datos doctor -->
      <div id="formuEditar" role="dialog">
         <form id="formularioE" novalidate>
        <!--   <div id="datos">-->
@@ -117,7 +118,7 @@
                   <option value="15">CENTRO DE IMPLANTOLOGÍA TARRAGONA</option>-->
                 </select></p>
             </div>
-            <div class="grupo-campos">
+             <div class="grupo-campos">
               <p class="texto"><span class='important'>*</span>Campo requerido</p>
             </div>
        <!--   </div>-->
@@ -137,7 +138,6 @@
     <script src="bower_components/jquery-validate/dist/jquery.validate.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-    
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
@@ -154,4 +154,4 @@
       <!--  <script src="scripts/jquery.multiselect.filter.js"></script>-->
         <!-- endbuild -->
 </body>
-</html>
+</html>   
