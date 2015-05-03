@@ -134,8 +134,7 @@ a {
 .texto {
   font-size: 11px;
 }
-
-#doctorB, #id_doctorE{
+#doctorB {
   display: none;
 }
 

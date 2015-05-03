@@ -21,7 +21,7 @@
     
     $respuesta=DB::editarDoctor($id_doctor,$nombre,$numcoleg);
     if(!$respuesta){
-        $mensaje="Imposible modificar datos doctor.";
+        $mensaje="Imposible modificar datos doctor numero ".$id_doctor;
         $estado=1;
     }
     else {

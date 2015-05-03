@@ -69,85 +69,7 @@ $(document).ready(function() {
             "searchable": false,
             "orderable": false
         }]	 
-	});
-
-	//validacion del formulario de nuevo Doctor
-	var formularioN = $('#formularioN').validate({
-	  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
-	    rules: {
-	        nombreN: {
-	            required: true,
-	            lettersonly: true
-        	},
-        	numcolegiadoN: {
-        		digits: true
-        	},
-        	'clinicasN[]': {
-        		required: true,
-        		minlenght: 1
-        	}
-        },
-        messages: {
-	        numcolegiadoN: {
-	            digits: "El numero de colegiado debe tener digitos."
-	        },
-	        clinicasN: {
-	        	required: "Selecciona al menos una clínica.",
-	        	minlenght: "Selecciona al menos una clínica."
-	        } 
-    	},  //fin messages
-	    submitHandler: function(form) {
-	    	// aquí codigo para guardar los datos
-			alert("entrado en submithandler del formulario");
-        	var clinicas = $("#clinicasN").val();
-        	var nombre = $("#nombreN").val();
-        	var numcolegiado = $("#numcolegiadoN").val();
-      
-           $.ajax({
-               type: 'POST',
-               dataType: 'json',
-               url: 'php/nuevo_doctor.php',
-               //estos son los datos que queremos agregar, en json:
-               data: {
-                   nombre: nombre,
-                   numcolegiado: numcolegiado,
-                   clinicas: clinicas
-               },
-               error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
-                   $.growl.error({
-            	// colocando el mensaje top centre ...
-                    location: "tc",
-                    message: "Error al añadir los datos del doctor." + error
-                });
-               },
-               success: function(data) {
-               	if (data[0].estado == 0) {
-                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
-                    $mitabla.fnDraw();
-                    $.growl({
-                        title: "Exito!",
-                        // colocando el mensaje top centre ...
-                        location: "tc",
-                        size: "large",
-                        style: "notice",
-                        message: "Doctor añadido correctamente!!"
-                    });
-                } else {
-                    $.growl.error({
-                        // colocando el mensaje top centre ...
-                        location: "tc",
-                        message: "Error al añadir los datos del doctor." + data[0].mensaje
-                    });
-                } 
-               },
-               complete: {
-                   //si queremos hacer algo al terminar la petición ajax
-               }
-           });
-	    }
-	    
-    });
+	});//fin datatables
 
 	//validacion del formulario de editar Doctor
 	var formularioE = $('#formularioE').validate({
@@ -205,87 +127,92 @@ $(document).ready(function() {
 			effect: "fade",     // efecto al cerrar la ventana dialog
 			duration: 800
 		},
-		
-	/*	buttons: {
+		buttons: {
 			"Guardar": function () {  
-			// aquí codigo para guardar los datos
-			
-            	var clinicas = $("#clinicasN").val();
-            	var nombre = $("#nombreN").val();
-            	var numcolegiado = $("#numcolegiadoN").val();
-          
-	           $.ajax({
-	               type: 'POST',
-	               dataType: 'json',
-	               url: 'php/nuevo_doctor.php',
-	               //estos son los datos que queremos agregar, en json:
-	               data: {
-	                   nombre: nombre,
-	                   numcolegiado: numcolegiado,
-	                   clinicas: clinicas
-	               },
-	               error: function(xhr, status, error) {
-	                   //mostraríamos alguna ventana de alerta con el error
-	                   $.growl.error({
-                	// colocando el mensaje top centre ...
-	                    location: "tc",
-	                    message: "Error al añadir los datos del doctor." + error
-	                });
-	               },
-	               success: function(data) {
-	               	if (data[0].estado == 0) {
-	                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
-	                    $mitabla.fnDraw();
-	                    $.growl({
-	                        title: "Exito!",
-	                        // colocando el mensaje top centre ...
-	                        location: "tc",
-	                        size: "large",
-	                        style: "notice",
-	                        message: "Doctor añadido correctamente!!"
-	                    });
-	                } else {
-	                    $.growl.error({
-	                        // colocando el mensaje top centre ...
-	                        location: "tc",
-	                        message: "Error al añadir los datos del doctor." + data[0].mensaje
-	                    });
-	                } 
-	               },
-	               complete: {
-	                   //si queremos hacer algo al terminar la petición ajax
-	               }
-	           });
+				//validacion del formulario de nuevo Doctor
+				var formularioN = $('#formularioN').validate({
+				  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+				    rules: {
+				        nombreN: {
+				            required: true,
+				            lettersonly: true
+			        	},
+			        	numcolegiadoN: {
+			        		digits: true
+			        	},
+			        	'clinicasN[]': {
+			        		required: false,
+			        		minlenght: 1
+			        	}
+			        },
+			        messages: {
+				        numcolegiadoN: {
+				            digits: "El numero de colegiado debe tener digitos."
+				        },
+				        clinicasN: {
+				        	required: "Selecciona al menos una clínica.",
+				        	minlenght: "Selecciona al menos una clínica."
+				        } 
+			    	}  //fin messages
+			    }); // fin validate
+				    
+				 if (formularioN==true) {   // si se ha validado del formulario se guardan los datos
+				 	alert("formulario validado");
+		        	var clinicas = $("#clinicasN").val();
+		        	var nombre = $("#nombreN").val();
+		        	var numcolegiado = $("#numcolegiadoN").val();
+		      
+		           $.ajax({
+		               type: 'POST',
+		               dataType: 'json',
+		               url: 'php/nuevo_doctor.php',
+		               //estos son los datos que queremos agregar, en json:
+		               data: {
+		                   nombre: nombre,
+		                   numcolegiado: numcolegiado,
+		                   clinicas: clinicas
+		               },
+		               error: function(xhr, status, error) {
+		                   //mostraríamos alguna ventana de alerta con el error
+		                   $.growl.error({
+		            	// colocando el mensaje top centre ...
+		                    location: "tc",
+		                    message: "Error al añadir los datos del doctor." + error
+		                });
+		               },
+		               success: function(data) {
+		               	if (data[0].estado == 0) {
+		                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+		                    $mitabla.fnDraw();
+		                    $.growl({
+		                        title: "Exito!",
+		                        // colocando el mensaje top centre ...
+		                        location: "tc",
+		                        size: "large",
+		                        style: "notice",
+		                        message: "Doctor añadido correctamente!!"
+		                    });
+		                } else {
+		                    $.growl.error({
+		                        // colocando el mensaje top centre ...
+		                        location: "tc",
+		                        message: "Error al añadir los datos del doctor." + data[0].mensaje
+		                    });
+		                } 
+		               },
+		               complete: {
+		                   //si queremos hacer algo al terminar la petición ajax
+		               }
+		           }); // fin ajax
 				$(this).dialog("close");
+				} //fin if
 			},
 			"Cancelar": function () {
 				$(this).dialog("close");
-				aform.resetForm();
 			}
-		},*/
-		buttons:[
-		{
-		 	id: "bGuardarN",
-		 	text: "Guardar",
-		 	//disabled: true,
-		 	//click: $.noop,
-            type: "submit",
-            form: "formularioN",
-            click: function(){
-		 		$("#formularioN").submit();
-		 	}
-		 }, 
-		 {
-		 	id: "bCancelarN",
-		 	text: "Cancelar",
-		 	click:  function () {
-				$(this).dialog("close");
-				aform.resetForm();
-			}
-		 }],
+		},
 		open: function(event, ui) {   
 		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
-			$(this).find("[type=submit]").hide();
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');
@@ -301,7 +228,7 @@ $(document).ready(function() {
 		autoOpen: false,
 		modal: true,
 		width: 700,
-		height: 400,
+		height: 500,
 		resizable: false,
 		position: { my: "center", at: "center", of: window },
 		show: {
@@ -318,7 +245,7 @@ $(document).ready(function() {
 		 	//disabled: true,
 		 	click: function(){
 		 		// aquí codigo para guardar los datos
-				var idDoctor = $("#id_DoctorE").html();
+				var idDoctor = $("#id_doctorE").val();
             	var clinicas = $("#clinicasE").val();
             	var nombre = $("#nombreE").val();
             	var numcolegiado = $("#numcolegiadoE").val();
@@ -388,7 +315,9 @@ $(document).ready(function() {
 			$('#clinicasE').load("php/cargar_clinicas.php", {
 				'clinicas': clinicasActivas
 			});
-        	$('#id_doctorE').html(aData.id_doctor);
+			$('#doctorB').html(aData.id_doctor);
+			$('#id_doctorE').prop('value',id_doctor);
+        	//$('#id_doctorE').html(aData.id_doctor);
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
 	        
@@ -516,7 +445,7 @@ $(document).ready(function() {
 		$('#clinicasE').load("php/cargar_clinicas.php", {
 			'clinicas': clinicasActivas
 		});
-		$('#id_doctorE').html(aData.id_doctor);
+		$('#id_doctorE').prop('value',aData.id_doctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
      
@@ -534,6 +463,7 @@ $(document).ready(function() {
 		$('#clinicasE').load("php/cargar_clinicas.php", {
 			'clinicas': clinicasActivas
 		});
+		$('#id_doctorE').prop('value',aData.id_doctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
 		$('#formuEditar').dialog("option", "title", "Modificar Doctor");
