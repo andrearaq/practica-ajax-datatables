@@ -70,6 +70,32 @@ $(document).ready(function() {
             "orderable": false
         }]	 
 	});//fin datatables
+	//validacion del formulario de nuevo Doctor
+	var formularioN = $('#formularioN').validate({
+	  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+	    rules: {
+	        nombreN: {
+	            required: true,
+	            lettersonly: true
+        	},
+        	numcolegiadoN: {
+        		digits: true
+        	},
+        	'clinicasN[]': {
+        		required: false,
+        		minlenght: 1
+        	}
+        },
+        messages: {
+	        numcolegiadoN: {
+	            digits: "El numero de colegiado debe tener digitos."
+	        },
+	        clinicasN: {
+	        	required: "Selecciona al menos una clínica.",
+	        	minlenght: "Selecciona al menos una clínica."
+	        } 
+    	}  //fin messages
+    }); // fin validate
 
 	//validacion del formulario de editar Doctor
 	var formularioE = $('#formularioE').validate({
@@ -127,36 +153,15 @@ $(document).ready(function() {
 			effect: "fade",     // efecto al cerrar la ventana dialog
 			duration: 800
 		},
-		buttons: {
-			"Guardar": function () {  
-				//validacion del formulario de nuevo Doctor
-				var formularioN = $('#formularioN').validate({
-				  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
-				    rules: {
-				        nombreN: {
-				            required: true,
-				            lettersonly: true
-			        	},
-			        	numcolegiadoN: {
-			        		digits: true
-			        	},
-			        	'clinicasN[]': {
-			        		required: false,
-			        		minlenght: 1
-			        	}
-			        },
-			        messages: {
-				        numcolegiadoN: {
-				            digits: "El numero de colegiado debe tener digitos."
-				        },
-				        clinicasN: {
-				        	required: "Selecciona al menos una clínica.",
-				        	minlenght: "Selecciona al menos una clínica."
-				        } 
-			    	}  //fin messages
-			    }); // fin validate
-				    
-				 if (formularioN==true) {   // si se ha validado del formulario se guardan los datos
+		buttons: [{
+		 	id: "bGuardarN",
+		 	text: "Guardar",
+		 	type: "submit",
+		 	form: "formularioN",
+
+			click: function () {  
+				if (formularioN.form()) { // si se ha validado del formulario se guardan los datos
+                				   
 				 	alert("formulario validado");
 		        	var clinicas = $("#clinicasN").val();
 		        	var nombre = $("#nombreN").val();
@@ -206,13 +211,18 @@ $(document).ready(function() {
 		           }); // fin ajax
 				$(this).dialog("close");
 				} //fin if
+			  }
 			},
-			"Cancelar": function () {
-				$(this).dialog("close");
-			}
-		},
+			{
+			 	id: "bCancelarN",
+			 	text: "Cancelar",
+			 	click:  function () {
+					$(this).dialog("close");
+				}
+		 }],
 		open: function(event, ui) {   
 		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
+			$( this ).find( "[type=submit]" ).hide();
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');
