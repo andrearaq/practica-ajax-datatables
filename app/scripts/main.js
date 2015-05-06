@@ -8,9 +8,6 @@ $(document).ready(function() {
 	    var salida = datos.replace(/,/g, '</li><li>');
 	    return salida;
 	}
-	// cargar las clinicas en el select clinicas del formulario
-//	$('#clinicasE').load("php/cargar_clinicas.php");
-//	$('#clinicasN').load("php/cargar_clinicas.php");
 	
 	// configuracion de Datatable
 	var listaTabla = $('#miTabla').DataTable({
@@ -70,59 +67,7 @@ $(document).ready(function() {
             "orderable": false
         }]	 
 	});//fin datatables
-	//validacion del formulario de nuevo Doctor
-	var formularioN = $('#formularioN').validate({
-	  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
-	    rules: {
-	        nombreN: {
-	            required: true,
-	            lettersonly: true
-        	},
-        	numcolegiadoN: {
-        		digits: true
-        	},
-        	'clinicasN[]': {
-        		required: false,
-        		minlenght: 1
-        	}
-        },
-        messages: {
-	        numcolegiadoN: {
-	            digits: "El numero de colegiado debe tener digitos."
-	        },
-	        clinicasN: {
-	        	required: "Selecciona al menos una clínica.",
-	        	minlenght: "Selecciona al menos una clínica."
-	        } 
-    	}  //fin messages
-    }); // fin validate
 
-	//validacion del formulario de editar Doctor
-	var formularioE = $('#formularioE').validate({
-	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
-	    rules: {
-	        nombreE: {
-	            required: true,
-	            lettersonly: true
-        	},
-        	numcolegiadoE: {
-        		digits: true
-        	},
-        	'clinicasE[]': {
-        		required: true,
-        		minlenght: 1
-        	}
-        },
-        messages: {
-	        numcolegiadoE: {
-	            digits: "El numero de colegiado debe tener digitos."
-	        },
-	        clinicasE: "Selecciona al menos una clínica."
-    	},  //fin messages
-	    submitHandler: function(form) {
-	    	$("#bGuardarE").attr("disabled", false);
-	    }
-    });
 
 	// metodo para validar campos con lettersonly
 	jQuery.validator.addMethod("lettersonly", function(value, element) {
@@ -136,6 +81,33 @@ $(document).ready(function() {
 	$("#clinicasN").multiselect({
 	   header: "Elige una clínica"
 	});*/
+
+	//validacion del formulario de nuevo Doctor
+	var formularioN = $('#formularioN').validate({
+	  //  focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+	    rules: {
+	        nombreN: {
+	            required: true,
+	            lettersonly: true
+        	},
+        	numcolegiadoN: {
+        		digits: true
+        	},
+        	'clinicasN[]': {
+        		required: true,
+        		minlenght: 1
+        	}
+        },
+        messages: {
+	        numcolegiadoN: {
+	            digits: "El numero de colegiado debe tener digitos."
+	        },
+	        clinicasN: {
+	        	required: "Selecciona al menos una clínica.",
+	        	minlenght: "Selecciona al menos una clínica."
+	        } 
+    	} //fin messages
+    }); // fin validate
 
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
@@ -153,15 +125,10 @@ $(document).ready(function() {
 			effect: "fade",     // efecto al cerrar la ventana dialog
 			duration: 800
 		},
-		buttons: [{
-		 	id: "bGuardarN",
-		 	text: "Guardar",
-		 	type: "submit",
-		 	form: "formularioN",
-
-			click: function () {  
-				if (formularioN.form()) { // si se ha validado del formulario se guardan los datos
-                				   
+		buttons: {
+		 	"Guardar": function(){ 
+		 		
+				if (formularioN.valid()) { // si se ha validado del formulario se guardan los datos		   
 				 	alert("formulario validado");
 		        	var clinicas = $("#clinicasN").val();
 		        	var nombre = $("#nombreN").val();
@@ -209,30 +176,49 @@ $(document).ready(function() {
 		                   //si queremos hacer algo al terminar la petición ajax
 		               }
 		           }); // fin ajax
-				$(this).dialog("close");
+					$(this).dialog("close");
 				} //fin if
-			  }
-			},
-			{
-			 	id: "bCancelarN",
-			 	text: "Cancelar",
-			 	click:  function () {
+			}, //fin boton guardar
+			 "Cancelar": function () {
 					$(this).dialog("close");
 				}
-		 }],
+		 }, //fin buttons
 		open: function(event, ui) {   
 		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
-			$( this ).find( "[type=submit]" ).hide();
         	$('#nombreN').val('');
         	$('#numcolegiadoN').val('');
         	//$('#clinicasN').multiselect('deselect_all');
         	$('#clinicasN option').removeAttr("selected");
         	$('#clinicasN').load("php/cargar_clinicas.php");
-		},
-		close: function() {
 		}
-	});
+	});  // fin dialog formulario nuevo
 
+	//validacion del formulario de editar Doctor
+	var formularioE = $('#formularioE').validate({
+	    focusCleanup: true,    //quita los errores al entrar en los campos de nuevo
+	    rules: {
+	        nombreE: {
+	            required: true,
+	            lettersonly: true
+        	},
+        	numcolegiadoE: {
+        		digits: true
+        	},
+        	'clinicasE[]': {
+        		required: true,
+        		minlenght: 1
+        	}
+        },
+        messages: {
+	        numcolegiadoE: {
+	            digits: "El numero de colegiado debe tener digitos."
+	        },
+	        clinicasE: "Selecciona al menos una clínica."
+    	},  //fin messages
+	    submitHandler: function(form) {
+	    	//$("#bGuardarE").attr("disabled", false);
+	    }
+    });
     // ventana tipo dialog de jquery-ui para modificar doctores
     var ventanaDialogo = $("#formuEditar").dialog({
 		autoOpen: false,
@@ -254,7 +240,9 @@ $(document).ready(function() {
 		 	text: "Guardar",
 		 	//disabled: true,
 		 	click: function(){
+
 		 		// aquí codigo para guardar los datos
+		 	  if (formularioE.valid()) { // si se ha validado del formulario se guardan los datos	
 				var idDoctor = $("#id_doctorE").val();
             	var clinicas = $("#clinicasE").val();
             	var nombre = $("#nombreE").val();
@@ -304,9 +292,10 @@ $(document).ready(function() {
 	               complete: {
 	                   //si queremos hacer algo al terminar la petición ajax
 	               }
-	           });
+	           });// fin ajax
 			  $(this).dialog("close");
-			}
+			 } //fin if valid
+			} // fin click guardar
 		 }, 
 		 {
 		 	id: "bCancelarE",
@@ -314,8 +303,7 @@ $(document).ready(function() {
 		 	click:  function () {
 				$(this).dialog("close");
 			}
-		 }],
-		//},
+		 }], //fin buttons
 		open: function(event, ui) { 
 			// al abrir la ventana dialog se llenan los campos del formulario
 			var nRow = $("#miTabla").parents('tr')[0];
@@ -325,9 +313,7 @@ $(document).ready(function() {
 			$('#clinicasE').load("php/cargar_clinicas.php", {
 				'clinicas': clinicasActivas
 			});
-			$('#doctorB').html(aData.id_doctor);
 			$('#id_doctorE').prop('value',id_doctor);
-        	//$('#id_doctorE').html(aData.id_doctor);
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
 	        
@@ -355,11 +341,7 @@ $(document).ready(function() {
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
-			//var nRow = $("#miTabla").parents('tr')[0];
-        	//var aData = listaTabla.row(nRow).data();
-        	
     		var nomDoctor = $('#dborrar').html();
-    		//var idDoctor = aData.id_doctor;
     		var idDoctor = $('#doctorB').html();  // este elemento está oculto en la ventana
     		console.log("doctor a borrar "+idDoctor);
     		// se llama via ajax al fichero borrar.php para borrar el doctor
@@ -421,7 +403,7 @@ $(document).ready(function() {
         	$('#dborrar').html(aData.nombre);
         	$('#doctorB').html(aData.id_doctor);
 		} 
-	});
+	});// fin dialog borrar
 
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").button().click(function (e) {
