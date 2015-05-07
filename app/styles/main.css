@@ -134,9 +134,10 @@ a {
 .texto {
   font-size: 11px;
 }
+/*
 #doctorB {
   display: none;
-}
+}*/
 
 #clinicasN, #clinicasE {
   width: 400px;

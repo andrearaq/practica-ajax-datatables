@@ -106,7 +106,10 @@ $(document).ready(function() {
 	        	required: "Selecciona al menos una clínica.",
 	        	minlenght: "Selecciona al menos una clínica."
 	        } 
-    	} //fin messages
+    	}, //fin messages
+    	submitHandler: function(form) {
+	    	
+	    }
     }); // fin validate
 
 	// ventana tipo dialog de jquery-ui para agregar doctores
@@ -216,7 +219,7 @@ $(document).ready(function() {
 	        clinicasE: "Selecciona al menos una clínica."
     	},  //fin messages
 	    submitHandler: function(form) {
-	    	//$("#bGuardarE").attr("disabled", false);
+	    	
 	    }
     });
     // ventana tipo dialog de jquery-ui para modificar doctores
@@ -313,6 +316,7 @@ $(document).ready(function() {
 			$('#clinicasE').load("php/cargar_clinicas.php", {
 				'clinicas': clinicasActivas
 			});
+
 			$('#id_doctorE').prop('value',id_doctor);
 	        $('#nombreE').val(aData.nombre);
 	        $('#numcolegiadoE').val(aData.numcolegiado);
@@ -322,7 +326,7 @@ $(document).ready(function() {
 		}
 	});
 
-    // ventana dialog para Borrar doctor
+  // ventana dialog para Borrar doctor
 	var ventanaBorrar = $("#modalBorrar").dialog({
 		autoOpen: false,
 		modal: true,
@@ -341,7 +345,9 @@ $(document).ready(function() {
 		buttons: {
 			"Borrar": function () {
 			// aquí codigo para borrar el doctor
+			
     		var nomDoctor = $('#dborrar').html();
+    		//var idDoctor = aData.id_doctor;
     		var idDoctor = $('#doctorB').html();  // este elemento está oculto en la ventana
     		console.log("doctor a borrar "+idDoctor);
     		// se llama via ajax al fichero borrar.php para borrar el doctor
@@ -405,6 +411,7 @@ $(document).ready(function() {
 		} 
 	});// fin dialog borrar
 
+	
 	// pulsacion del boton nuevo doctor
 	$("#bnuevo").button().click(function (e) {
 		e.preventDefault();
