@@ -99,18 +99,69 @@ $(document).ready(function() {
         	}
         },
         messages: {
+        	nombreN: {
+        		required: "El nombre del doctor es obligatorio."
+        	},
 	        numcolegiadoN: {
 	            digits: "El numero de colegiado debe tener digitos."
 	        },
-	        clinicasN: {
-	        	required: "Selecciona al menos una clínica.",
-	        	minlenght: "Selecciona al menos una clínica."
+	        'clinicasN[]': {
+	        	required: "Selecciona al menos una clínica."
 	        } 
     	}, //fin messages
     	submitHandler: function(form) {
-	    	
-	    }
-    }); // fin validate
+    	  if (formularioN.valid()) {
+    	  	console.log("validando formulario nuevo");
+	    	var clinicas = $("#clinicasN").val();
+        	var nombre = $("#nombreN").val();
+        	var numcolegiado = $("#numcolegiadoN").val();
+      
+            $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/nuevo_doctor.php',
+               //estos son los datos que queremos agregar, en json:
+               data: {
+                   nombre: nombre,
+                   numcolegiado: numcolegiado,
+                   clinicas: clinicas
+               },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+                   $.growl.error({
+            	// colocando el mensaje top centre ...
+                    location: "tc",
+                    message: "Error al añadir los datos del doctor." + error
+                });
+               },
+               success: function(data) {
+               	if (data[0].estado == 0) {
+                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+                    $mitabla.fnDraw();
+                    $.growl({
+                        title: "Exito!",
+                        // colocando el mensaje top centre ...
+                        location: "tc",
+                        size: "large",
+                        style: "notice",
+                        message: "Doctor añadido correctamente!!"
+                    });
+                } else {
+                    $.growl.error({
+                        // colocando el mensaje top centre ...
+                        location: "tc",
+                        message: "Error al añadir los datos del doctor." + data[0].mensaje
+                    });
+                } 
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           }); // fin ajax
+			$(this).dialog("close");
+	     } //fin if valid
+	    } //fin submithandler
+    }); // fin validate formulario nuevo
 
 	// ventana tipo dialog de jquery-ui para agregar doctores
     var ventanaDialogo = $("#formuNuevo").dialog({
@@ -130,58 +181,8 @@ $(document).ready(function() {
 		},
 		buttons: {
 		 	"Guardar": function(){ 
-		 		
-				if (formularioN.valid()) { // si se ha validado del formulario se guardan los datos		   
-				 	alert("formulario validado");
-		        	var clinicas = $("#clinicasN").val();
-		        	var nombre = $("#nombreN").val();
-		        	var numcolegiado = $("#numcolegiadoN").val();
-		      
-		           $.ajax({
-		               type: 'POST',
-		               dataType: 'json',
-		               url: 'php/nuevo_doctor.php',
-		               //estos son los datos que queremos agregar, en json:
-		               data: {
-		                   nombre: nombre,
-		                   numcolegiado: numcolegiado,
-		                   clinicas: clinicas
-		               },
-		               error: function(xhr, status, error) {
-		                   //mostraríamos alguna ventana de alerta con el error
-		                   $.growl.error({
-		            	// colocando el mensaje top centre ...
-		                    location: "tc",
-		                    message: "Error al añadir los datos del doctor." + error
-		                });
-		               },
-		               success: function(data) {
-		               	if (data[0].estado == 0) {
-		                    var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
-		                    $mitabla.fnDraw();
-		                    $.growl({
-		                        title: "Exito!",
-		                        // colocando el mensaje top centre ...
-		                        location: "tc",
-		                        size: "large",
-		                        style: "notice",
-		                        message: "Doctor añadido correctamente!!"
-		                    });
-		                } else {
-		                    $.growl.error({
-		                        // colocando el mensaje top centre ...
-		                        location: "tc",
-		                        message: "Error al añadir los datos del doctor." + data[0].mensaje
-		                    });
-		                } 
-		               },
-		               complete: {
-		                   //si queremos hacer algo al terminar la petición ajax
-		               }
-		           }); // fin ajax
-					$(this).dialog("close");
-				} //fin if
-			}, //fin boton guardar
+		 		$("#formularioN").submit();
+			}, 
 			 "Cancelar": function () {
 					$(this).dialog("close");
 				}
@@ -213,10 +214,13 @@ $(document).ready(function() {
         	}
         },
         messages: {
+        	nombreE: {
+        		required: "El nombre del doctor es obligatorio."
+        	},
 	        numcolegiadoE: {
 	            digits: "El numero de colegiado debe tener digitos."
 	        },
-	        clinicasE: "Selecciona al menos una clínica."
+	        'clinicasE[]': "Selecciona al menos una clínica."
     	},  //fin messages
 	    submitHandler: function(form) {
 	    	
