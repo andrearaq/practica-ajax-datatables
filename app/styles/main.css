@@ -48,19 +48,19 @@ body {
   font-size: 15px;
   font-weight: bold;
 }
-.boton_ed {
+.botoned {
   background-color: #056B4A;
   opacity: 0.7;
 }
-.boton_bo {
+.botonbo {
  /* background-color: #E73827;*/
   background-color: #E82C0C;
   opacity: 0.7;
 }
-.boton_ed:hover {
+.botoned:hover {
   opacity: 1;
 }
-.boton_bo:hover {
+.botonbo:hover {
   opacity: 1;
 }
 #botones {
@@ -134,12 +134,8 @@ a {
 .texto {
   font-size: 11px;
 }
-/*
-#doctorB {
-  display: none;
-}*/
 
-#clinicasN, #clinicasE {
+#clinicasNuevas, #clinicasEditar {
   width: 400px;
   height: 160px;
 }

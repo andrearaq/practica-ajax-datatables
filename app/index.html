@@ -15,19 +15,16 @@
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
- <!--   <link rel="stylesheet" href="styles/jquery.dataTables_themeroller.css">-->
     <link rel="stylesheet" href="styles/jquery-ui.css" />
     <link rel="stylesheet" href="styles/jquery-ui.structure.css" />
     <link rel="stylesheet" href="styles/jquery-ui.theme.css" />
     <link rel="stylesheet" href="styles/jquery.multiselect.css" />
-  <!--  <link rel="stylesheet" href="styles/jquery.multiselect.filter.css" />-->
     <!-- endbuild -->
   </head>
   <body>
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
 
     <div class="container">
       <div id="titulo"><h1>Clinica Dental - Doctores</h1></div>
@@ -37,6 +34,7 @@
         <button id="brepositorio">Repositorio GitHub</button>
       </div>
        <br/>
+       <div id="tabla">
         <table id="miTabla" class="display" width="100%" cellspacing="0">
        
           <thead>
@@ -57,31 +55,21 @@
     </div>
     <!-- formulario para agregar doctor -->
      <div id="formuNuevo" role="dialog">
-        <form id="formularioN" novalidate>
+        <form id="formularioNuevo" novalidate>
             <div class="grupo-campos">
                 <label for="nombreN">Nombre y Apellidos:<span class='important'>*</span>
                 </label>  
                 <input type="text" name="nombreN" id="nombreN" placeholder="Introduce nombre y apellido" class="text ui-widget-content ui-corner-all">
-                <p><span class="error_label"></span> </p> 
             </div>
             <div class="grupo-campos">
                 <label for="numcolegiadoN">Nº Colegiado:</label>
                 <input type="text" name="numcolegiadoN" id="numcolegiadoN" placeholder="Introduce nº de colegiado" class="text ui-widget-content ui-corner-all">
-                 <p><span class="error_label"></span></p>
             </div>
             <div class="grupo-campos">
-                <label for="clinicasN">Clínicas:<span class='important'>*</span>
+                <label for="clinicasNuevas">Clínicas:<span class='important'>*</span>
                 </label>
-                <select size="8" name="clinicasN[]" class="multiselect" multiple="multiple" id="clinicasN">
-             <!--     <option value="1">CENTRO IMPLANTOLOGICO BARCELONA</option>
-                  <option value="2">CENTRO DE IMPLANTOLOGÍA MADRID</option>
-                  <option value="3">CENTRO DE IMPLANTOLOGÍA VIGO</option>
-                  <option value="4">CENTRO DE IMPLANTOLOGÍA ZARAGOZA</option>
-                  <option value="6">CENTRO DE IMPLANTOLOGÍA VALENCIA</option>
-                  <option value="6">CENTRO DE IMPLANTOLOGÍA SANTANDER</option>
-                  <option value="15">CENTRO DE IMPLANTOLOGÍA TARRAGONA</option>-->
+                <select id="clinicasNuevas" class="multiselect" size="8" name="clinicasNuevas[]" multiple="multiple">
                 </select>
-                <p><span class="error_label"></span></p>
             </div>
              <div class="grupo-campos">
               <p class="texto"><span class='important'>*</span>Campo requerido</p>
@@ -90,8 +78,7 @@
       </div>
       <!-- formulario para modificar datos doctor -->
      <div id="formuEditar" role="dialog">
-        <form id="formularioE" novalidate>
-       <!--   <div id="datos">-->
+        <form id="formularioEditar" novalidate>
            <input  type="hidden" id="id_doctorE" value="">
             <div class="grupo-campos">
                 <label for="nombreE">Nombre y Apellidos:<span class='important'>*</span>
@@ -103,29 +90,23 @@
                 <p><input type="text" name="numcolegiadoE" id="numcolegiadoE" placeholder="Introduce nº de colegiado" class="text ui-widget-content ui-corner-all"></p>
             </div>
             <div class="grupo-campos">
-                <label for="clinicasE">Clínicas:<span class='important'>*</span>
+                <label for="clinicasEditar">Clínicas:<span class='important'>*</span>
                 </label>
-                <p><select id="clinicasE" size="8" name="clinicasE[]" class="multiselect" multiple="multiple" >
-             <!--     <option value="1">CENTRO IMPLANTOLOGICO BARCELONA</option>
-                  <option value="2">CENTRO DE IMPLANTOLOGÍA MADRID</option>
-                  <option value="3">CENTRO DE IMPLANTOLOGÍA VIGO</option>
-                  <option value="4">CENTRO DE IMPLANTOLOGÍA ZARAGOZA</option>
-                  <option value="6">CENTRO DE IMPLANTOLOGÍA VALENCIA</option>
-                  <option value="6">CENTRO DE IMPLANTOLOGÍA SANTANDER</option>
-                  <option value="15">CENTRO DE IMPLANTOLOGÍA TARRAGONA</option>-->
-                </select></p>
+                <select id="clinicasEditar" class="multiselect" size="8" name="clinicasEditar[]" multiple="multiple">
+                </select>
             </div>
              <div class="grupo-campos">
               <p class="texto"><span class='important'>*</span>Campo requerido</p>
             </div>
-       <!--   </div>-->
         </form>
       </div>
       <!-- texto ventana modal Borrar doctor -->
     <div id="modalBorrar" role="dialog">
-      <p>¿Está seguro de borrar el Doctor/a <span id="dborrar"></span><span id="doctorB"></span> ?</p>
+      <p>¿Está seguro de borrar el Doctor/a <span id="dborrar"></span> ?</p>
+      <input type="hidden" id="doctorB" value="">
     </div>
-
+    
+  </div><!--fin container-->
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
