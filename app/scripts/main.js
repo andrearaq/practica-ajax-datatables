@@ -153,47 +153,6 @@ $(document).ready(function() {
 	    } //fin submithandler
     }); // fin validate formulario nuevo
 
-	// ventana tipo dialog de jquery-ui para agregar doctores
-    var ventanaDialogoNuevo = $("#formuNuevo").dialog({
-		autoOpen: false,
-		modal: true,
-		width: 700,
-		height: 500,
-		resizable: false,
-		position: { my: "center", at: "center", of: window },
-		show: {
-			effect: "blind",   // efecto al abrir la ventana dialog
-			duration: 400
-		},
-		hide: {
-			effect: "fade",     // efecto al cerrar la ventana dialog
-			duration: 800
-		},
-		buttons:[{
-		 	id: "bGuardarNuevo",
-		 	text: "Guardar",
-		 	click: function(){
-		 		$("#formularioNuevo").submit();		 	 
-			} // fin click guardar
-		 }, 
-		 {
-		 	id: "bCancelarNuevo",
-		 	text: "Cancelar",
-		 	click:  function () {
-				$(this).dialog("close");
-			}
-		 }], //fin buttons
-		open: function(event, ui) {   
-		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
-        	$('#nombreN').val('');
-        	$('#numcolegiadoN').val('');
-        	$('#clinicasNuevas').val('');
-		},
-		close: function() {
-			formNuevo.resetForm();
-		}
-	});  // fin dialog formulario nuevo
-
 	//validacion del formulario de editar Doctor
 	var formEditar = $('#formularioEditar').validate({
 	    rules: {
@@ -218,9 +177,10 @@ $(document).ready(function() {
 	        },
 	        'clinicasEditar[]': "Selecciona al menos una clínica."
     	},  //fin messages
+
 	    submitHandler: function(form) {
 	    	if (formEditar.valid()) { // si se ha validado del formulario se guardan los datos
-	    		onsole.log("validando formulario editar");
+	    		console.log("validando formulario editar");
 				var idDoctor = $("#id_doctorE").val();
             	var clinicas = $("#clinicasEditar").val();
             	var nombre = $("#nombreE").val();
@@ -271,10 +231,50 @@ $(document).ready(function() {
 	                   //si queremos hacer algo al terminar la petición ajax
 	               }
 	           });// fin ajax
-				$("#formuEditar").dialog("close");
+			   $("#formuEditar").dialog("close");
 			 } //fin if valid
 	    }
     });//fin validate formularioEditar
+
+	// ventana tipo dialog de jquery-ui para agregar doctores
+    var ventanaDialogoNuevo = $("#formuNuevo").dialog({
+		autoOpen: false,
+		modal: true,
+		width: 700,
+		height: 500,
+		resizable: false,
+		position: { my: "center", at: "center", of: window },
+		show: {
+			effect: "blind",   // efecto al abrir la ventana dialog
+			duration: 400
+		},
+		hide: {
+			effect: "fade",     // efecto al cerrar la ventana dialog
+			duration: 800
+		},
+		buttons:[{
+		 	id: "bGuardarNuevo",
+		 	text: "Guardar",
+		 	click: function(){
+		 		$("#formularioNuevo").submit();		 	 
+			} // fin click guardar
+		 }, 
+		 {
+		 	id: "bCancelarNuevo",
+		 	text: "Cancelar",
+		 	click:  function () {
+				$(this).dialog("close");
+			}
+		 }], //fin buttons
+		open: function(event, ui) {   
+		// al abrir al ventana dialog se limpian los campos y se cargan las clinicas
+		},
+		close: function() {
+			formNuevo.resetForm();
+		}
+	});  // fin dialog formulario nuevo
+
+	
     // ventana tipo dialog de jquery-ui para modificar doctores
     var ventanaDialogoEditar = $("#formuEditar").dialog({
 		autoOpen: false,
@@ -307,15 +307,6 @@ $(document).ready(function() {
 		 }], //fin buttons
 		open: function(event, ui) { 
 			// al abrir la ventana dialog se llenan los campos del formulario
-			var nRow = $("#miTabla").parents('tr')[0];
-        	var aData = listaTabla.row(nRow).data();
-        	var clinicasOn = aData.clinica;
-           // var clinicasActivas = clinicasOn.split(',');
-            $('#clinicasEditar').val('');
-           // $('#clinicasEditar option').removeAttr("selected");
-            $('#id_doctorE').prop('value',aData.id_doctor);
-	        $('#nombreE').val(aData.nombre);
-	        $('#numcolegiadoE').val(aData.numcolegiado);
 		},
 		close: function() {
 			formEditar.resetForm();
@@ -398,10 +389,6 @@ $(document).ready(function() {
 		},
 		open: function(event, ui) { 
 			// al abrir la ventana se muestra el nombre del doctor a borrar
-		/*	var nRow = $("#miTabla").parents('tr')[0];
-        	var aData = listaTabla.row(nRow).data();
-        	$('#dborrar').html(aData.nombre);
-        	$('#doctorB').prop('value',aData.id_doctor);*/
 		}
 	});// fin dialog borrar
 
@@ -438,7 +425,6 @@ $(document).ready(function() {
         $('#id_doctorE').prop('value',aData.id_doctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
-        $('#clinicasEditar option').removeAttr("selected");
 		$('#clinicasEditar').load("php/cargar_clinicas.php", {
 			'clinicas': clinicasActivas
 		});     
@@ -455,7 +441,6 @@ $(document).ready(function() {
 		$('#id_doctorE').prop('value',aData.id_doctor);
         $('#nombreE').val(aData.nombre);
         $('#numcolegiadoE').val(aData.numcolegiado);
-        $('#clinicasEditar option').removeAttr("selected");
         $('#clinicasEditar').load("php/cargar_clinicas.php", {
 			'clinicas': clinicasActivas
 		});

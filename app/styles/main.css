@@ -53,7 +53,6 @@ body {
   opacity: 0.7;
 }
 .botonbo {
- /* background-color: #E73827;*/
   background-color: #E82C0C;
   opacity: 0.7;
 }
@@ -107,12 +106,8 @@ a {
   display: block;
   float: left;
   padding: 8px;
-  /*width:150px;*/
 }
 .grupo-campos input {
- /* width: 65%;
-  max-width: 70%;
-  height: 18px;*/
   width: 200px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -121,21 +116,15 @@ a {
  box-shadow:inset 1px 1px 5px 1px #808080;
   -moz-box-shadow: 1px 1px 5px 1px #808080;
   -webkit-box-shadow: 1px 1px 5px 1px #808080;
-
 }
 .grupo-campos select {
-  height: 40px;
-  width: 300px;
+  height: 160px;
+  width: 400px;
   margin-left: 20px;
- /* box-shadow: inset 1px 1px 5px 1px #808080;
+  box-shadow: inset 1px 1px 5px 1px #808080;
   -moz-box-shadow: inset 1px 1px 5px 1px #808080;
-  -webkit-box-shadow: inset 1px 1px 5px 1px #808080;*/
+  -webkit-box-shadow: inset 1px 1px 5px 1px #808080;
 }
 .texto {
   font-size: 11px;
-}
-
-#clinicasNuevas, #clinicasEditar {
-  width: 400px;
-  height: 160px;
 }
